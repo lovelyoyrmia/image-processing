@@ -2,12 +2,15 @@ import streamlit as st
 import numpy as np
 import cv2
 import os
+import requests
 from PIL import Image, ImageEnhance
+
+
+
 
 
 def main():
    # ==== Image Processing ====
-
    st.title('Image Processing App')
    st.text('Build using streamlit and opencv')
 
@@ -17,12 +20,21 @@ def main():
    if choice == 'Processing':
       st.subheader('Face Detection')
       image_file = st.file_uploader('Upload Image', type=['png', 'jpg', 'jpeg'])
+      
 
       if image_file:
          img = Image.open(image_file)
-         enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring']
+         response = requests.post(
+            'https://api.remove.bg/v1.0/removebg',
+            files={'image_file': img.tobytes()},
+            data={
+               'size': 'auto' 
+            },
+            headers={'X-Api-Key': 'sQ2UFR9FDeZzvNFLKMYykUfC'}
+         )
+         enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
          enchance = st.sidebar.radio('Enchance Type', enchance_type)
-         
+
          if enchance == 'Original':
             st.text('Original')
             st.image(img)
@@ -43,6 +55,24 @@ def main():
             enchancer = ImageEnhance.Brightness(img)
             img_brightness = enchancer.enhance(c_rate)
             st.image(img_brightness)
+         
+         elif enchance == 'Blurring':
+            blur_rate = st.slider('Brightness', 0.5, 3.5, step=.5)
+            new_img = np.array(img.convert('RGB'))
+            img_blur = cv2.GaussianBlur(new_img, (11, 11), blur_rate)
+            st.image(img_blur)
+
+         else:
+            st.subheader('Original')
+            st.image(img)
+            try:
+               if response.status_code == requests.codes.ok :
+                  with open('no-no-bg.png', 'wb') as out:
+                     out.write(response.content)
+               else:
+                  print('Error')
+            except Exception as err:
+               print(err)
 
    else:
       pass
