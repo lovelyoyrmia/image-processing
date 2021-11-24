@@ -2,11 +2,10 @@ import streamlit as st
 import numpy as np
 import cv2
 import os
+import random
 import requests
+import base64
 from PIL import Image, ImageEnhance
-
-
-
 
 
 def main():
@@ -20,24 +19,34 @@ def main():
    if choice == 'Processing':
       st.subheader('Face Detection')
       image_file = st.file_uploader('Upload Image', type=['png', 'jpg', 'jpeg'])
-      
+      img_string = str(image_file.name)
+      jpg_original = base64.b64decode(img_string)
+      print(jpg_original)
 
       if image_file:
+         path_image = str(random.randint(0, 100000))
          img = Image.open(image_file)
          response = requests.post(
             'https://api.remove.bg/v1.0/removebg',
-            files={'image_file': img.tobytes()},
+            files={'image_file': jpg_original},
             data={
                'size': 'auto' 
             },
             headers={'X-Api-Key': 'sQ2UFR9FDeZzvNFLKMYykUfC'}
          )
+         
+         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
+         img_decode = cv2.imdecode(jpg_as_np, flags=1)
+         print(img_decode)
+
          enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
          enchance = st.sidebar.radio('Enchance Type', enchance_type)
 
          if enchance == 'Original':
             st.text('Original')
             st.image(img)
+            st.download_button('Download Image', img_string, 
+                              file_name='image{}.jpg'.format(path_image), mime='image/jpg')
 
          elif enchance == 'Gray-Scale':
             new_img = np.array(img.convert('RGB'))
@@ -67,10 +76,10 @@ def main():
             st.image(img)
             try:
                if response.status_code == requests.codes.ok :
-                  with open('no-no-bg.png', 'wb') as out:
-                     out.write(response.content)
+                  img_rmove = response.content
+                  st.image(img_rmove)
                else:
-                  print('Error')
+                  print(response.status_code)
             except Exception as err:
                print(err)
 
