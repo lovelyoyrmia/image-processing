@@ -7,6 +7,23 @@ import requests
 import base64
 from PIL import Image, ImageEnhance
 
+path_image = str(random.randint(0, 100000))
+
+class FileDownloader(object):
+	
+	def __init__(self, data,filename='myfile',file_ext='jpg'):
+		super(FileDownloader, self).__init__()
+		self.data = data
+		self.filename = filename
+		self.file_ext = file_ext
+
+	def download(self):
+		b64 = base64.b64encode(self.data.encode()).decode()
+		new_filename = "{}_{}_.{}".format(self.filename,path_image,self.file_ext)
+		st.markdown("#### Download File ###")
+		href = f'<a href="data:file/{self.file_ext};base64,{b64}" download="{new_filename}">Click Here!!</a>'
+		st.markdown(href,unsafe_allow_html=True)
+
 
 def main():
    # ==== Image Processing ====
@@ -19,25 +36,26 @@ def main():
    if choice == 'Processing':
       st.subheader('Face Detection')
       image_file = st.file_uploader('Upload Image', type=['png', 'jpg', 'jpeg'])
-      img_string = str(image_file.name)
-      jpg_original = base64.b64decode(img_string)
-      print(jpg_original)
+      img_string = str(image_file.name).lower()
+      b64 = base64.b64encode(img_string.encode()).decode()
 
       if image_file:
-         path_image = str(random.randint(0, 100000))
          img = Image.open(image_file)
-         response = requests.post(
-            'https://api.remove.bg/v1.0/removebg',
-            files={'image_file': jpg_original},
-            data={
-               'size': 'auto' 
-            },
-            headers={'X-Api-Key': 'sQ2UFR9FDeZzvNFLKMYykUfC'}
-         )
+
+         # response = requests.post(
+         #    'https://api.remove.bg/v1.0/removebg',
+         #    files={'image_file': b64},
+         #    data={
+         #       'size': 'auto' 
+         #    },
+         #    headers={'X-Api-Key': 'sQ2UFR9FDeZzvNFLKMYykUfC'}
+         # )
          
-         jpg_as_np = np.frombuffer(jpg_original, dtype=np.uint8)
-         img_decode = cv2.imdecode(jpg_as_np, flags=1)
-         print(img_decode)
+         # jpg_as_np = np.frombuffer(b64, dtype=np.uint8)
+         # img_decode = cv2.imdecode(jpg_as_np, flags=1)
+         # print(img_decode)
+         
+         FileDownloader(img_string).download()
 
          enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
          enchance = st.sidebar.radio('Enchance Type', enchance_type)
@@ -74,14 +92,14 @@ def main():
          else:
             st.subheader('Original')
             st.image(img)
-            try:
-               if response.status_code == requests.codes.ok :
-                  img_rmove = response.content
-                  st.image(img_rmove)
-               else:
-                  print(response.status_code)
-            except Exception as err:
-               print(err)
+            # try:
+            #    if response.status_code == requests.codes.ok :
+            #       img_rmove = response.content
+            #       st.image(img_rmove)
+            #    else:
+            #       print(response.status_code)
+            # except Exception as err:
+            #    print(err)
 
    else:
       pass
