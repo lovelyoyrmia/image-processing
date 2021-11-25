@@ -5,9 +5,12 @@ import os
 import random
 import requests
 import base64
+import dotenv
 from PIL import Image, ImageEnhance
 
 path_image = str(random.randint(0, 100000))
+
+
 
 class FileDownloader(object):
 	
@@ -26,6 +29,7 @@ class FileDownloader(object):
 
 
 def main():
+   dotenv.load_dotenv()
    # ==== Image Processing ====
    st.title('Image Processing App')
    st.text('Build using streamlit and opencv')
@@ -34,10 +38,10 @@ def main():
    choice = st.sidebar.selectbox('Select Activity', activities)
 
    if choice == 'Processing':
-      st.subheader('Face Detection')
+      # st.subheader('Face Detection')
       image_file = st.file_uploader('Upload Image', type=['png', 'jpg', 'jpeg'])
-      img_string = str(image_file.name).lower()
-      b64 = base64.b64encode(img_string.encode()).decode()
+      # img_string = str(image_file.name).lower()
+      # b64 = base64.b64encode(img_string.encode()).decode()
 
       if image_file:
          img = Image.open(image_file)
@@ -55,7 +59,7 @@ def main():
          # img_decode = cv2.imdecode(jpg_as_np, flags=1)
          # print(img_decode)
          
-         FileDownloader(img_string).download()
+         # FileDownloader(img_string).download()
 
          enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
          enchance = st.sidebar.radio('Enchance Type', enchance_type)
@@ -63,8 +67,8 @@ def main():
          if enchance == 'Original':
             st.text('Original')
             st.image(img)
-            st.download_button('Download Image', img_string, 
-                              file_name='image{}.jpg'.format(path_image), mime='image/jpg')
+            # st.download_button('Download Image', img_string, 
+                              # file_name='image{}.jpg'.format(path_image), mime='image/jpg')
 
          elif enchance == 'Gray-Scale':
             new_img = np.array(img.convert('RGB'))
@@ -72,9 +76,10 @@ def main():
             st.image(img_cvt)
 
          elif enchance == 'Contrast':
-            c_rate = st.slider('Contrast', 0.5, 3.5, step=.5)
+            c_rate = st.sidebar.slider('Contrast', 0.5, 3.5, step=.5)
             enchancer = ImageEnhance.Contrast(img)
             img_contrast = enchancer.enhance(c_rate)
+            st.subheader('Contrast')
             st.image(img_contrast)
 
          elif enchance == 'Brightness':
