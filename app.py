@@ -7,6 +7,7 @@ import random
 import requests
 import base64
 import dotenv
+import detections as dt
 from PIL import Image, ImageEnhance
 
 path_image = str(random.randint(0, 100000))
@@ -15,19 +16,6 @@ path_image = str(random.randint(0, 100000))
 def load_image(image_file):
    img = Image.open(image_file)
    return img
-
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
-def detect_faces(images):
-   new_img = np.array(images.convert('RGB'))
-   img = cv2.cvtColor(new_img, 1)
-   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-   # Detect Faces
-   faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-   for (x, y, w, h) in faces:
-      cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-   return img, faces
 
 def main():
    dotenv.load_dotenv()
@@ -71,7 +59,7 @@ def main():
                pass
             elif option_task == 'Face Detection':
                if st.button('Detect Faces'):
-                  result_img, faces = detect_faces(img)
+                  result_img, faces = dt.detect_faces(img)
                   st.image(result_img)
                   if len(faces) > 1:
                      st.success(f'Found {len(faces)} Faces')
@@ -79,6 +67,14 @@ def main():
                      st.success(f'Found {len(faces)} Face')
             elif option_task == 'Body Detection':
                pass
+            elif option_task == 'Smile Detection':
+               if st.button('Detect Smiles'):
+                  result_smile, smiles = dt.detect_smiles(img)
+                  st.image(result_smile)
+                  if len(smiles) > 0:
+                     st.success('Smiling !!!')
+                  else:
+                     st.error('Not Smiling :(')
 
          elif enchance == 'Gray-Scale':
             new_img = np.array(img.convert('RGB'))
