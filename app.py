@@ -1,3 +1,4 @@
+from attr.setters import convert
 import streamlit as st
 import numpy as np
 import cv2
@@ -10,27 +11,23 @@ from PIL import Image, ImageEnhance
 
 path_image = str(random.randint(0, 100000))
 
-
-
-class FileDownloader(object):
-	
-	def __init__(self, data,filename='myfile',file_ext='jpg'):
-		super(FileDownloader, self).__init__()
-		self.data = data
-		self.filename = filename
-		self.file_ext = file_ext
-
-	def download(self):
-		b64 = base64.b64encode(self.data.encode()).decode()
-		new_filename = "{}_{}_.{}".format(self.filename,path_image,self.file_ext)
-		st.markdown("#### Download File ###")
-		href = f'<a href="data:file/{self.file_ext};base64,{b64}" download="{new_filename}">Click Here!!</a>'
-		st.markdown(href,unsafe_allow_html=True)
-
 @st.cache()
 def load_image(image_file):
    img = Image.open(image_file)
    return img
+
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+def detect_faces(images):
+   new_img = np.array(images.convert('RGB'))
+   img = cv2.cvtColor(new_img, 1)
+   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+   # Detect Faces
+   faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+   for (x, y, w, h) in faces:
+      cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+   return img, faces
 
 def main():
    dotenv.load_dotenv()
@@ -49,32 +46,39 @@ def main():
       if image_file:
          
          img = load_image(image_file)
-         # print(np.array(img))
-         
-         print(img.load())
-         response = requests.post(
-            'https://api.remove.bg/v1.0/removebg',
-            files={'image_file': open('vio.jpg', 'rb')},
-            data={
-               'size': 'auto' 
-            },
-            headers={'X-Api-Key': os.environ.get('X_API_KEY')}
-         )
-         
-         # jpg_as_np = np.frombuffer(b64, dtype=np.uint8)
-         # img_decode = cv2.imdecode(jpg_as_np, flags=1)
-         # print(img_decode)
-         
-         # FileDownloader(img_string).download()
+         image_array = np.array(img)
 
+         # TODO: I'll be back later
+
+         # response = requests.post(
+         #    'https://api.remove.bg/v1.0/removebg',
+         #    files={'image_file': open('vio.jpg', 'rb')},
+         #    data={
+         #       'size': 'auto' 
+         #    },
+         #    headers={'X-Api-Key': os.environ.get('X_API_KEY')}
+         # )
+         
          enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
          enchance = st.sidebar.radio('Enchance Type', enchance_type)
 
          if enchance == 'Original':
             st.text('Original')
             st.image(img)
-            # st.download_button('Download Image', img_string, 
-                              # file_name='image{}.jpg'.format(path_image), mime='image/jpg')
+            task = ['Original Image', 'Face Detection', 'Body Detection', 'Smile Detection']
+            option_task = st.sidebar.selectbox('Find Features', task)
+            if option_task == 'Original Image':
+               pass
+            elif option_task == 'Face Detection':
+               if st.button('Detect Faces'):
+                  result_img, faces = detect_faces(img)
+                  st.image(result_img)
+                  if len(faces) > 1:
+                     st.success(f'Found {len(faces)} Faces')
+                  else:
+                     st.success(f'Found {len(faces)} Face')
+            elif option_task == 'Body Detection':
+               pass
 
          elif enchance == 'Gray-Scale':
             new_img = np.array(img.convert('RGB'))
