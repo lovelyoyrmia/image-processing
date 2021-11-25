@@ -27,6 +27,10 @@ class FileDownloader(object):
 		href = f'<a href="data:file/{self.file_ext};base64,{b64}" download="{new_filename}">Click Here!!</a>'
 		st.markdown(href,unsafe_allow_html=True)
 
+@st.cache()
+def load_image(image_file):
+   img = Image.open(image_file)
+   return img
 
 def main():
    dotenv.load_dotenv()
@@ -40,20 +44,22 @@ def main():
    if choice == 'Processing':
       # st.subheader('Face Detection')
       image_file = st.file_uploader('Upload Image', type=['png', 'jpg', 'jpeg'])
-      # img_string = str(image_file.name).lower()
-      # b64 = base64.b64encode(img_string.encode()).decode()
+      # image_decode = base64.b64encode(image_file.read()).decode('utf-8')
 
       if image_file:
-         img = Image.open(image_file)
-
-         # response = requests.post(
-         #    'https://api.remove.bg/v1.0/removebg',
-         #    files={'image_file': b64},
-         #    data={
-         #       'size': 'auto' 
-         #    },
-         #    headers={'X-Api-Key': 'sQ2UFR9FDeZzvNFLKMYykUfC'}
-         # )
+         
+         img = load_image(image_file)
+         # print(np.array(img))
+         
+         print(img.load())
+         response = requests.post(
+            'https://api.remove.bg/v1.0/removebg',
+            files={'image_file': open('vio.jpg', 'rb')},
+            data={
+               'size': 'auto' 
+            },
+            headers={'X-Api-Key': os.environ.get('X_API_KEY')}
+         )
          
          # jpg_as_np = np.frombuffer(b64, dtype=np.uint8)
          # img_decode = cv2.imdecode(jpg_as_np, flags=1)
