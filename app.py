@@ -5,11 +5,10 @@ import os
 import random
 import dotenv
 import detections as dt
-from cvzone.SelfiSegmentationModule import SelfiSegmentation
+from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
 
 path_image = str(random.randint(0, 100000))
-segmentor = SelfiSegmentation()
 
 hide_menu_style = '''
    <style>
@@ -22,8 +21,6 @@ hide_menu_style = '''
 '''
 st.set_page_config(page_title='Image Procs', layout="wide")
 st.markdown(hide_menu_style, unsafe_allow_html=True)
-
-
 
 @st.cache()
 def load_image(image_file):
@@ -53,23 +50,25 @@ def main():
          st.session_state.enchance = st.sidebar.radio('Enchance Type', st.session_state.enchance_type)
 
          if 'Original' in st.session_state.enchance:
-            st.text('Original')
+            st.subheader('Original')
             st.image(img)
             task = ['Original Image', 'Face Detection', 'Smile Detection']
             option_task = st.sidebar.selectbox('Find Features', task)
             if option_task == 'Original Image':
                pass
             elif option_task == 'Face Detection':
-               if st.button('Detect Faces'):
+               if st.sidebar.button('Detect Faces'):
                   result_img, faces = dt.detect_faces(img)
+                  st.subheader('Results')
                   st.image(result_img)
                   if len(faces) > 1:
                      st.success(f'Found {len(faces)} Faces')
                   else:
                      st.success(f'Found {len(faces)} Face')
             elif option_task == 'Smile Detection':
-               if st.button('Detect Smiles'):
+               if st.sidebar.button('Detect Smiles'):
                   result_smile, smiles = dt.detect_smiles(img)
+                  st.subheader('Results')
                   st.image(result_smile)
                   if len(smiles) > 0:
                      st.success('Smiling !!!')
@@ -107,8 +106,10 @@ def main():
             st.subheader('Original')
             st.image(img)
             new_img = np.array(img)
-            imgOut = segmentor.removeBG(new_img)
-            st.image(imgOut)
+            if st.sidebar.button('Remove Background'):
+               imgOut = removeBG(new_img)
+               st.subheader('Results')
+               st.image(imgOut)
 
    else:
       pass
