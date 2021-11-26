@@ -1,4 +1,3 @@
-from attr.setters import convert
 import streamlit as st
 import numpy as np
 import cv2
@@ -53,7 +52,7 @@ def main():
          if enchance == 'Original':
             st.text('Original')
             st.image(img)
-            task = ['Original Image', 'Face Detection', 'Body Detection', 'Smile Detection']
+            task = ['Original Image', 'Face Detection', 'Smile Detection']
             option_task = st.sidebar.selectbox('Find Features', task)
             if option_task == 'Original Image':
                pass
@@ -65,11 +64,6 @@ def main():
                      st.success(f'Found {len(faces)} Faces')
                   else:
                      st.success(f'Found {len(faces)} Face')
-            elif option_task == 'Body Detection':
-               if st.button('Detect Bodies'):
-                  result_body, bodies = dt.detect_full_body(img)
-                  st.image(result_body)
-                  print(bodies)
             elif option_task == 'Smile Detection':
                if st.button('Detect Smiles'):
                   result_smile, smiles = dt.detect_smiles(img)
