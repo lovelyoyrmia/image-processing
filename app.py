@@ -1,14 +1,10 @@
 import streamlit as st
 import numpy as np
 import cv2
-import os
-import random
 import dotenv
 import detections as dt
 from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
-
-path_image = str(random.randint(0, 100000))
 
 hide_menu_style = '''
    <style>
