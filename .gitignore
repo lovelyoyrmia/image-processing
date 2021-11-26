@@ -1,3 +1,4 @@
 /__pychace__
 venv
 .env
+.streamlit

@@ -86,13 +86,13 @@ def main():
             st.image(img_contrast)
 
          elif enchance == 'Brightness':
-            c_rate = st.slider('Brightness', 0.5, 3.5, step=.5)
+            c_rate = st.sidebar.slider('Brightness', 0.5, 3.5, step=.5)
             enchancer = ImageEnhance.Brightness(img)
             img_brightness = enchancer.enhance(c_rate)
             st.image(img_brightness)
          
          elif enchance == 'Blurring':
-            blur_rate = st.slider('Brightness', 0.5, 3.5, step=.5)
+            blur_rate = st.sidebar.slider('Brightness', 0.5, 3.5, step=.5)
             new_img = np.array(img.convert('RGB'))
             img_blur = cv2.GaussianBlur(new_img, (11, 11), blur_rate)
             st.image(img_blur)
