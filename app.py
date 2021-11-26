@@ -33,7 +33,6 @@ def main():
       if image_file:
          
          img = load_image(image_file)
-         image_array = np.array(img)
 
          # TODO: I'll be back later
 
@@ -46,8 +45,9 @@ def main():
          #    headers={'X-Api-Key': os.environ.get('X_API_KEY')}
          # )
          
-         enchance_type = ['Original', 'Gray-Scale', 'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
-         enchance = st.sidebar.radio('Enchance Type', enchance_type)
+         st.session_state.enchance_type = ['Original', 'Gray-Scale', 
+                                          'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
+         st.session_state.enchance = st.sidebar.radio('Enchance Type', st.session_state.enchance_type)
 
          if enchance == 'Original':
             st.text('Original')
@@ -79,20 +79,21 @@ def main():
             st.image(img_cvt)
 
          elif enchance == 'Contrast':
-            c_rate = st.sidebar.slider('Contrast', 0.5, 3.5, step=.5)
+            c_rate = st.sidebar.slider('Contrast', 0.5, 3.5, step=.5, key='contrast')
             enchancer = ImageEnhance.Contrast(img)
             img_contrast = enchancer.enhance(c_rate)
             st.subheader('Contrast')
             st.image(img_contrast)
+            st.session_state.get('contrast')
 
          elif enchance == 'Brightness':
-            c_rate = st.sidebar.slider('Brightness', 0.5, 3.5, step=.5)
+            c_rate = st.sidebar.slider('Brightness', 0.5, 3.5, step=.5, key='brightness')
             enchancer = ImageEnhance.Brightness(img)
             img_brightness = enchancer.enhance(c_rate)
             st.image(img_brightness)
          
          elif enchance == 'Blurring':
-            blur_rate = st.sidebar.slider('Brightness', 0.5, 3.5, step=.5)
+            blur_rate = st.sidebar.slider('Blurring', 0.5, 3.5, step=.5, key='blurring')
             new_img = np.array(img.convert('RGB'))
             img_blur = cv2.GaussianBlur(new_img, (11, 11), blur_rate)
             st.image(img_blur)
