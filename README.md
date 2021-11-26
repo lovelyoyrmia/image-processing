@@ -11,3 +11,4 @@ Tools i use
 - Streamlit (Web Development)
 - Opencv (Processing images)
 - Mediapipe (Remove Background)
+- Heroku (Web Hosting)
