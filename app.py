@@ -108,7 +108,15 @@ def main():
                st.image(imgOut)
 
    else:
-      pass
+      st.markdown('''
+         ###### Created by __[Lovelyo Yeremia](https://github.com/lovelyoyrmia/)__
+         <style>
+            a {
+               text-decoration: none;
+               color: #2235d2;
+            }
+         </style>
+      ''', unsafe_allow_html=True)
 
 if __name__ == '__main__':
    main()
