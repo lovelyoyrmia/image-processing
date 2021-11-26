@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
 import cv2
-import dotenv
 import detections as dt
 from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
@@ -25,7 +24,6 @@ def load_image(image_file):
    return img
 
 def main():
-   dotenv.load_dotenv()
    # ==== Image Processing ====
    st.title('Image Processing App')
    st.text('Build using streamlit and opencv')
