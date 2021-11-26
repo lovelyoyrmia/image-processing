@@ -8,6 +8,7 @@ except Exception as err:
    print(err)
 
 def detect_faces(images):
+   global face_cascade
    new_img = np.array(images.convert('RGB'))
    img = cv2.cvtColor(new_img, 1)
    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -19,6 +20,7 @@ def detect_faces(images):
    return img, faces
 
 def detect_smiles(images):
+   global face_cascade, smile_cascade
    new_img = np.array(images.convert('RGB'))
    img = cv2.cvtColor(new_img, 1)
    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
