@@ -28,7 +28,7 @@ def detect_smiles(images):
       cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
       the_face = img[y:y+h, x:x+w]
       face_gray_scale = cv2.cvtColor(the_face,cv2.COLOR_BGR2GRAY)
-      smile_detect = smile_cascade.detectMultiScale(face_gray_scale, 1.4,minNeighbors=25)
+      smile_detect = smile_cascade.detectMultiScale(face_gray_scale, 1.2,minNeighbors=25)
    
       if len(smile_detect) > 0:
          cv2.putText(img,'smiling',
