@@ -39,3 +39,13 @@ def detect_smiles(images):
 
    return img, smile_detect
 
+def detect_full_body(images):
+   new_img = np.array(images.convert('RGB'))
+   print(new_img)
+   img = cv2.cvtColor(new_img, 1)
+   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+   bodies = body_cascade.detectMultiScale(gray, 1.1, 3)
+   for (x, y, h, w) in bodies:
+      cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+   return img, bodies

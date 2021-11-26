@@ -66,7 +66,10 @@ def main():
                   else:
                      st.success(f'Found {len(faces)} Face')
             elif option_task == 'Body Detection':
-               pass
+               if st.button('Detect Bodies'):
+                  result_body, bodies = dt.detect_full_body(img)
+                  st.image(result_body)
+                  print(bodies)
             elif option_task == 'Smile Detection':
                if st.button('Detect Smiles'):
                   result_smile, smiles = dt.detect_smiles(img)
