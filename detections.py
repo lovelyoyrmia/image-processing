@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import mediapipe as mp
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 smile_cascade = cv2.CascadeClassifier('haarcascade_smile.xml')
@@ -41,13 +40,3 @@ def detect_smiles(images):
 
    return img, smile_detect
 
-def detect_full_body(images):
-   new_img = np.array(images)
-   img = cv2.cvtColor(new_img, 1)
-   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-   bodies = body_cascade.detectMultiScale(gray, 1.7, 20)
-   for (x, y, h, w) in bodies:
-      cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-      print(x, y, w, h)
-   return img, bodies

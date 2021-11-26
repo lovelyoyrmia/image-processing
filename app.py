@@ -3,13 +3,27 @@ import numpy as np
 import cv2
 import os
 import random
-import requests
-import base64
 import dotenv
 import detections as dt
+from cvzone.SelfiSegmentationModule import SelfiSegmentation
 from PIL import Image, ImageEnhance
 
 path_image = str(random.randint(0, 100000))
+segmentor = SelfiSegmentation()
+
+hide_menu_style = '''
+   <style>
+      #MainMenu {display: none; }
+      footer {visibility: hidden;}
+      .css-fk4es0 {display: none;}
+      #stStatusWidget {display: none;}
+      .css-r698ls {display: none;}
+   </style>
+'''
+st.set_page_config(page_title='Image Procs', layout="wide")
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+
 
 @st.cache()
 def load_image(image_file):
@@ -33,23 +47,12 @@ def main():
       if image_file:
          
          img = load_image(image_file)
-
-         # TODO: I'll be back later
-
-         # response = requests.post(
-         #    'https://api.remove.bg/v1.0/removebg',
-         #    files={'image_file': open('vio.jpg', 'rb')},
-         #    data={
-         #       'size': 'auto' 
-         #    },
-         #    headers={'X-Api-Key': os.environ.get('X_API_KEY')}
-         # )
          
          st.session_state.enchance_type = ['Original', 'Gray-Scale', 
                                           'Contrast', 'Brightness', 'Blurring', 'Remove-Background']
          st.session_state.enchance = st.sidebar.radio('Enchance Type', st.session_state.enchance_type)
 
-         if enchance == 'Original':
+         if 'Original' in st.session_state.enchance:
             st.text('Original')
             st.image(img)
             task = ['Original Image', 'Face Detection', 'Smile Detection']
@@ -73,42 +76,39 @@ def main():
                   else:
                      st.error('Not Smiling :(')
 
-         elif enchance == 'Gray-Scale':
+         elif 'Gray-Scale' in st.session_state.enchance:
             new_img = np.array(img.convert('RGB'))
             img_cvt = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
+            st.subheader('Gray-Scale')
             st.image(img_cvt)
 
-         elif enchance == 'Contrast':
+         elif 'Contrast' in st.session_state.enchance:
             c_rate = st.sidebar.slider('Contrast', 0.5, 3.5, step=.5, key='contrast')
             enchancer = ImageEnhance.Contrast(img)
             img_contrast = enchancer.enhance(c_rate)
             st.subheader('Contrast')
             st.image(img_contrast)
-            st.session_state.get('contrast')
 
-         elif enchance == 'Brightness':
+         elif 'Brightness' in st.session_state.enchance:
             c_rate = st.sidebar.slider('Brightness', 0.5, 3.5, step=.5, key='brightness')
             enchancer = ImageEnhance.Brightness(img)
             img_brightness = enchancer.enhance(c_rate)
+            st.subheader('Brightness')
             st.image(img_brightness)
          
-         elif enchance == 'Blurring':
+         elif 'Blurring' in st.session_state.enchance:
             blur_rate = st.sidebar.slider('Blurring', 0.5, 3.5, step=.5, key='blurring')
             new_img = np.array(img.convert('RGB'))
             img_blur = cv2.GaussianBlur(new_img, (11, 11), blur_rate)
+            st.subheader('Blurring')
             st.image(img_blur)
 
          else:
             st.subheader('Original')
             st.image(img)
-            # try:
-            #    if response.status_code == requests.codes.ok :
-            #       img_rmove = response.content
-            #       st.image(img_rmove)
-            #    else:
-            #       print(response.status_code)
-            # except Exception as err:
-            #    print(err)
+            new_img = np.array(img)
+            imgOut = segmentor.removeBG(new_img)
+            st.image(imgOut)
 
    else:
       pass
