@@ -62,13 +62,10 @@ def main():
                      st.success(f'Found {len(faces)} Face')
             elif option_task == 'Smile Detection':
                if st.sidebar.button('Detect Smiles'):
-                  result_smile, smiles = dt.detect_smiles(img)
+                  result_smile = dt.detect_smiles(img)
                   st.subheader('Results')
                   st.image(result_smile)
-                  if len(smiles) > 0:
-                     st.success('Smiling !!!')
-                  else:
-                     st.error('Not Smiling :(')
+                  
 
          elif 'Gray-Scale' in st.session_state.enchance:
             new_img = np.array(img.convert('RGB'))

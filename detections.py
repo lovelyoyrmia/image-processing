@@ -41,5 +41,5 @@ def detect_smiles(images):
          (x,y+h+40),fontScale=3,
          fontFace=cv2.FONT_HERSHEY_PLAIN,color=(255, 0, 0), thickness=4)
 
-   return img, smile_detect
+   return img
 
