@@ -51,6 +51,7 @@ def main():
             option_task = st.sidebar.selectbox('Find Features', task)
             if option_task == 'Original Image':
                pass
+            
             elif option_task == 'Face Detection':
                if st.sidebar.button('Detect Faces'):
                   result_img, faces = dt.detect_faces(img)
@@ -60,6 +61,7 @@ def main():
                      st.success(f'Found {len(faces)} Faces')
                   else:
                      st.success(f'Found {len(faces)} Face')
+
             elif option_task == 'Smile Detection':
                if st.sidebar.button('Detect Smiles'):
                   result_smile = dt.detect_smiles(img)
