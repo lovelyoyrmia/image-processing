@@ -21,7 +21,7 @@ def load_image(image_file):
    return img
 
 image_logo = load_image('images.jpg')
-st.set_page_config(page_title='Image Procs', layout="wide")
+st.set_page_config(page_title='Image Procs', page_icon=image_logo, layout="wide")
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 def main():
