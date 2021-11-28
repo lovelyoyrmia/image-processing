@@ -15,13 +15,14 @@ hide_menu_style = '''
    </style>
 '''
 
-st.set_page_config(page_title='Image Procs', layout="wide")
-st.markdown(hide_menu_style, unsafe_allow_html=True)
-
 @st.cache()
 def load_image(image_file):
    img = Image.open(image_file)
    return img
+
+image_logo = load_image('images.jpg')
+st.set_page_config(page_title='Image Procs', layout="wide")
+st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 def main():
    # ==== Image Processing ====
@@ -51,7 +52,7 @@ def main():
             option_task = st.sidebar.selectbox('Find Features', task)
             if option_task == 'Original Image':
                pass
-            
+
             elif option_task == 'Face Detection':
                if st.sidebar.button('Detect Faces'):
                   result_img, faces = dt.detect_faces(img)
