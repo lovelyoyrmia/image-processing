@@ -66,7 +66,6 @@ def main():
                   st.subheader('Results')
                   st.image(result_smile)
                   
-
          elif 'Gray-Scale' in st.session_state.enchance:
             new_img = np.array(img.convert('RGB'))
             img_cvt = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
