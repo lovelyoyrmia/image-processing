@@ -130,7 +130,7 @@ def main():
                justify-content: space-between;
             }
             .icon-container a:hover {
-               color: grey;
+               color: rgba(0, 0, 255, 0.7);
             }
             h5 {
                margin-top: 2rem;
