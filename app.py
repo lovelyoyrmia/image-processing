@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import cv2
 import detections as dt
+import base64
 from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
 
@@ -35,7 +36,7 @@ def main():
    if choice == 'Processing':
       # st.subheader('Face Detection')
       image_file = st.file_uploader('Upload Image', type=['png', 'jpg', 'jpeg'])
-      # image_decode = base64.b64encode(image_file.read()).decode('utf-8')
+      
 
       if image_file:
          
@@ -74,6 +75,12 @@ def main():
             img_cvt = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
             st.subheader('Gray-Scale')
             st.image(img_cvt)
+            image_fromarray = Image.fromarray(img_cvt)
+            # image_decode = base64.b64encode(image_fromarray).decode('utf-8')
+            image_download = image_fromarray.tobytes()
+            st.download_button('Download Image', image_download)
+            
+            # print(image_download)
 
          elif 'Contrast' in st.session_state.enchance:
             c_rate = st.sidebar.slider('Contrast', 0.5, 3.5, step=.5, key='contrast')
