@@ -15,14 +15,14 @@ hide_menu_style = '''
    </style>
 '''
 
+image_logo = Image.open('images.jpg')
+st.set_page_config(page_title='Image Procs', page_icon=image_logo, layout="wide")
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
 @st.cache()
 def load_image(image_file):
    img = Image.open(image_file)
    return img
-
-image_logo = load_image('images.jpg')
-st.set_page_config(page_title='Image Procs', page_icon=image_logo, layout="wide")
-st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 def main():
    # ==== Image Processing ====
