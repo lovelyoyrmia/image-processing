@@ -1,5 +1,6 @@
 import smtplib
 import os
+import streamlit as st
 from dotenv import load_dotenv
 
 
@@ -20,5 +21,16 @@ def sendEmail(email_receive):
         server.sendmail(email, email_receive, messageToUser)
         server.sendmail(email_receive, email, messageToMe)
         server.quit()
-    except Exception as err:
-        print(err)
+        st.success(
+            "Email sent successfully !! Let's take a look at the Image Processing"
+        )
+        st.balloons()
+    except Exception:
+        if email_receive == "":
+            st.error("Please fill in the fields")
+        else:
+            a = os.system("ping www.google.com")
+            if a == 1:
+                st.error("Please connect your internet connection !")
+            else:
+                st.error("Wrong Email")
