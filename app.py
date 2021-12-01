@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import numpy as np
 import cv2
@@ -7,6 +8,7 @@ from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
 from downloader import downloader, imageDownloader, imageConvertArray, imageSt
 from maskRcnn import maskImage
+from sendEmail import sendEmail
 
 image_logo = Image.open("images.jpg")
 st.set_page_config(page_title="Image Procs", page_icon=image_logo, layout="wide")
@@ -32,12 +34,22 @@ def main():
 
     # ==== Image Processing ====
     st.title("Image Processing App")
-    st.text("Build using streamlit and opencv")
+    st.text("Build using Computer Vision and Artificial Intelligence")
 
-    activities = ["Processing", "About"]
+    activities = ["Subscribe", "Processing", "About"]
     choice = st.sidebar.selectbox("Select Activity", activities)
 
-    if choice == "Processing":
+    # === Subscribe Page ===
+    if choice == "Subscribe":
+        st.subheader("Let's get in touch")
+        st.image("images.jpg", width=400)
+        email = st.text_input("Enter your email")
+        if st.button("Subscribe"):
+            with st.spinner("Sending email..."):
+                sendEmail(email)
+
+    # === Processing Page ===
+    elif choice == "Processing":
         # st.subheader('Face Detection')
         image_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
 
@@ -161,6 +173,7 @@ def main():
                     st.subheader("Results")
                     imageSt(imgOut)
 
+    # === About Page ===
     else:
         st.markdown(
             """
