@@ -63,6 +63,7 @@ def main():
                     "Original Image",
                     "Face Detection",
                     "Smile Detection",
+                    "Object Count",
                     "Mask R-CNN Image",
                 ]
                 option_task = st.sidebar.selectbox(
@@ -86,10 +87,19 @@ def main():
                         result_smile = dt.detect_smiles(img)
                         st.subheader("Results")
                         st.image(result_smile)
+                elif option_task == "Object Count":
+                    if st.sidebar.button("Count Objects"):
+                        result_obj, _, total_object = maskImage(img)
+                        st.subheader("Results")
+                        st.image(result_obj)
+                        if len(total_object) < 1:
+                            st.success(f"Found {total_object} object")
+                        else:
+                            st.success(f"Found {total_object} objects")
                 else:
                     if st.sidebar.button("Mask Image"):
-                        result_mask = maskImage(img)
-                        st.subheader("Results")
+                        _, result_mask, _ = maskImage(img)
+                        st.subheader("Masks")
                         st.image(result_mask)
 
             elif "Gray-Scale" in st.session_state.enchance:
