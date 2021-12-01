@@ -3,10 +3,10 @@ import numpy as np
 
 try:
     face_cascade = cv2.CascadeClassifier(
-        cv2.data.haarcascades + "haarcascade/haarcascade_frontalface_default.xml"
+       "haarcascade/haarcascade_frontalface_default.xml"
     )
     smile_cascade = cv2.CascadeClassifier(
-        cv2.data.haarcascades + "haarcascade/haarcascade_smile.xml"
+       "haarcascade/haarcascade_smile.xml"
     )
 except Exception as err:
     print(err)
