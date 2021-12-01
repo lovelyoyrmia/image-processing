@@ -63,4 +63,4 @@ def maskImage(images):
         for cnt in countours:
             cv2.fillPoly(roi, [cnt], (int(color[0]), int(color[1]), int(color[2])))
 
-    return black_image
+    return img, black_image, total_object
