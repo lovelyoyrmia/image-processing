@@ -4,6 +4,8 @@ import streamlit as st
 from dotenv import load_dotenv
 
 
+# TODO: I'll be back for smtp server
+
 def sendEmail(email_receive):
     load_dotenv()
     email = os.environ.get("EMAIL")
