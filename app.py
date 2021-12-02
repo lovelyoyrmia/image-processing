@@ -6,7 +6,7 @@ import time
 from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
 from downloader import downloader, imageDownloader, imageConvertArray, imageSt
-from maskRcnn import maskImage
+from emaskRcnn import maskImage
 from sendEmail import sendEmail
 
 image_logo = Image.open("images.jpg")
