@@ -9,8 +9,6 @@ try:
 except Exception as err:
     print(err)
 
-colors = np.random.randint(0, 255, (80, 3))
-
 
 def loadImage(images):
     img = np.array(images.convert("RGB"))
@@ -18,6 +16,7 @@ def loadImage(images):
 
 
 def maskImage(images):
+    colors = np.random.randint(0, 255, (80, 3))
     img = loadImage(images)
     height, width, _ = img.shape
 

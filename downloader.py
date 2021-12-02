@@ -23,6 +23,7 @@ def downloader(image):
 
 
 def imageDownloader(image):
+    global timestr, idImage
     return st.download_button(
         "Download Image",
         image,

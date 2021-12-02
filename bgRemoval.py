@@ -8,6 +8,7 @@ mpSegment = mp.solutions.selfie_segmentation
 selfieSegmentation = mpSegment.SelfieSegmentation()
 
 def removeBG(img, imgBg=(255, 255, 255), threshold=0.1):
+   global mpDraw, mpSegment, selfieSegmentation
    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
    results = selfieSegmentation.process(imgRGB)
    condition = np.stack(
