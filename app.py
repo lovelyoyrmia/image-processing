@@ -8,6 +8,7 @@ from PIL import Image, ImageEnhance
 from downloader import downloader, imageDownloader, imageConvertArray, imageSt
 from emaskRcnn import maskImage
 from sendEmail import sendEmail
+from cartoons import cartoonize
 
 image_logo = Image.open("images.jpg")
 st.set_page_config(page_title="Image Procs", page_icon=image_logo, layout="wide")
@@ -24,7 +25,7 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
 @st.cache()
-def load_image(image_file):
+def loadImagePIL(image_file):
     img = Image.open(image_file)
     return img
 
@@ -54,7 +55,7 @@ def main():
 
         if image_file:
 
-            img = load_image(image_file)
+            img = loadImagePIL(image_file)
 
             st.session_state.enchance_type = [
                 "Original",
@@ -62,6 +63,7 @@ def main():
                 "Contrast",
                 "Brightness",
                 "Blurring",
+                "Cartoonize",
                 "Remove-Background",
             ]
             st.session_state.enchance = st.sidebar.radio(
@@ -87,7 +89,7 @@ def main():
                 elif option_task == "Face Detection":
                     if st.sidebar.button("Detect Faces"):
                         with st.spinner("Loading..."):
-                            time.sleep(5)
+                            time.sleep(2)
                             result_img, faces = dt.detect_faces(img)
                             st.subheader("Results")
                             imageSt(result_img)
@@ -99,7 +101,7 @@ def main():
                 elif option_task == "Smile Detection":
                     if st.sidebar.button("Detect Smiles"):
                         with st.spinner("Loading..."):
-                            time.sleep(5)
+                            time.sleep(2)
                             result_smile = dt.detect_smiles(img)
                             st.subheader("Results")
                             imageSt(result_smile)
@@ -107,7 +109,7 @@ def main():
                 elif option_task == "Body and Object Detection":
                     if st.sidebar.button("Detect Bodies & Objects"):
                         with st.spinner("Loading..."):
-                            time.sleep(5)
+                            time.sleep(2)
                             result_obj, _ = maskImage(img)
                             st.subheader("Results")
                             imageSt(result_obj)
@@ -115,7 +117,7 @@ def main():
                 else:
                     if st.sidebar.button("Mask Image"):
                         with st.spinner("Loading..."):
-                            time.sleep(5)
+                            time.sleep(2)
                             _, result_mask = maskImage(img)
                             st.subheader("Masks")
                             imageSt(result_mask)
@@ -162,15 +164,36 @@ def main():
                 imageSt(img_blur)
                 img_bytes = downloader(img_blur)
                 imageDownloader(img_bytes)
+            elif "Cartoonize" in st.session_state.enchance:
 
+                features_cartoon = [
+                    "Skecth",
+                    "Color Quantization",
+                    "Quantization Blurred",
+                    "Cartoons",
+                ]
+                type_cartoonize = st.sidebar.selectbox(
+                    "Types Of Cartoonize", features_cartoon
+                )
+
+                edges, img_quantization, blurred, cartoon = cartoonize(img)
+
+                if type_cartoonize == "Sketch":
+                    imageSt(edges)
+                elif type_cartoonize == "Color Quantization":
+                    imageSt(img_quantization)
+                elif type_cartoonize == "Quantization Blurred":
+                    imageSt(blurred)
+                elif type_cartoonize == "Cartoons":
+                    imageSt(cartoon)
             else:
                 st.subheader("Original")
                 imageSt(img)
                 new_img = np.array(img)
                 if st.sidebar.button("Remove Background"):
-                    imgOut = removeBG(new_img)
+                    img_out = removeBG(new_img)
                     st.subheader("Results")
-                    imageSt(imgOut)
+                    imageSt(img_out)
 
     # === About Page ===
     else:
