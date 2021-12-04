@@ -181,18 +181,26 @@ def main():
                     if st.button("Process"):
                         st.subheader("Result Sketch")
                         imageSt(edges)
+                        img_bytes = downloader(edges)
+                        imageDownloader(img_bytes)
                 elif type_cartoonize == "Color Quantization":
                     if st.button("Process"):
                         st.subheader("Result Image Quantization")
                         imageSt(img_quantization)
+                        img_bytes = downloader(img_quantization)
+                        imageDownloader(img_bytes)
                 elif type_cartoonize == "Quantization Blurred":
                     if st.button("Process"):
                         st.subheader("Result Image Quantization Blurred")
                         imageSt(blurred)
+                        img_bytes = downloader(blurred)
+                        imageDownloader(img_bytes)
                 elif type_cartoonize == "Cartoons":
                     if st.button("Process"):
                         st.subheader("Result Image Cartoon")
                         imageSt(cartoon)
+                        img_bytes = downloader(cartoon)
+                        imageDownloader(img_bytes)
             else:
                 st.subheader("Original")
                 imageSt(img)
