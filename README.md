@@ -6,6 +6,7 @@ This app has features such as
 
 - Change Image to Gray-Scale
 - Select a value of contrast, brightness, blurring, remove background
+- Cartoonize photos
 - Face Detection and Smile Detection
 - Body and Object Detection
 - Mask R-CNN Image
