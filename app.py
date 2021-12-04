@@ -165,9 +165,8 @@ def main():
                 img_bytes = downloader(img_blur)
                 imageDownloader(img_bytes)
             elif "Cartoonize" in st.session_state.enchance:
-
                 features_cartoon = [
-                    "Skecth",
+                    "Sketch",
                     "Color Quantization",
                     "Quantization Blurred",
                     "Cartoons",
@@ -179,13 +178,21 @@ def main():
                 edges, img_quantization, blurred, cartoon = cartoonize(img)
 
                 if type_cartoonize == "Sketch":
-                    imageSt(edges)
+                    if st.button("Process"):
+                        st.subheader("Result Sketch")
+                        imageSt(edges)
                 elif type_cartoonize == "Color Quantization":
-                    imageSt(img_quantization)
+                    if st.button("Process"):
+                        st.subheader("Result Image Quantization")
+                        imageSt(img_quantization)
                 elif type_cartoonize == "Quantization Blurred":
-                    imageSt(blurred)
+                    if st.button("Process"):
+                        st.subheader("Result Image Quantization Blurred")
+                        imageSt(blurred)
                 elif type_cartoonize == "Cartoons":
-                    imageSt(cartoon)
+                    if st.button("Process"):
+                        st.subheader("Result Image Cartoon")
+                        imageSt(cartoon)
             else:
                 st.subheader("Original")
                 imageSt(img)
