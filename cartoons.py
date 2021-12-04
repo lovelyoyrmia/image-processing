@@ -36,9 +36,9 @@ def edgeMask(image, line_size, blur_value):
 
 
 def cartoonize(img):
-    blur_value = st.sidebar.slider("Blur Value", 7, 10, key="blur_value")
+    blur_value = 7
     line_size = 7
-    total_color = st.sidebar.slider("Total Color", 7, 15, key="line_size")
+    total_color = 11
 
     edges = edgeMask(img, line_size, blur_value)
     img_quantization = colorQuantization(img, total_color)
