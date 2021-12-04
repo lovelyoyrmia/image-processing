@@ -3,8 +3,8 @@ import numpy as np
 import cv2
 import detections as dt
 import time
-from bgRemoval import removeBG
 from PIL import Image, ImageEnhance
+from bgRemoval import removeBG
 from downloader import downloader, imageDownloader, imageConvertArray, imageSt
 from emaskRcnn import maskImage
 from sendEmail import sendEmail
