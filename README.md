@@ -19,3 +19,6 @@ Tools i use
 - Opencv (Processing images)
 - Mediapipe (Remove Background)
 - Heroku (Web Hosting)
+
+## Examples
+<img src='assets/movie-photo.png' alt='' width=600>
