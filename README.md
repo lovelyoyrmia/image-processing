@@ -24,3 +24,6 @@ Tools i use
 
 ### **Gray-Scale**
 <img src='gray-scale.gif' alt='' width=600>
+
+### **Contrast**
+<img src='contrast.gif' alt='' width=600>
