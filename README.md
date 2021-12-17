@@ -23,7 +23,13 @@ Tools i use
 ## Examples
 
 ### **Gray-Scale**
-<img src='gray-scale.gif' alt='' width=600>
+<img src='assets/gray-scale.gif' alt='' width=600>
 
 ### **Cartoons**
-<img src='cartoons.gif' alt='' width=600>
+<img src='assets/cartoons.gif' alt='' width=600>
+
+### **Contrast**
+<img src='assets/contrast.gif' alt='' width=600>
+
+### **Remove Background**
+<img src='assets/rm-bg.gif' alt='' width=600>
