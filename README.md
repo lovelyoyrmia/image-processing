@@ -26,4 +26,4 @@ Tools i use
 <img src='gray-scale.gif' alt='' width=600>
 
 ### **Contrast**
-<img src='contrast.gif' alt='' width=600>
+<img src='cartoons.gif' alt='' width=600>
