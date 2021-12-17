@@ -19,3 +19,8 @@ Tools i use
 - Opencv (Processing images)
 - Mediapipe (Remove Background)
 - Heroku (Web Hosting)
+
+## Examples
+
+### **Gray-Scale**
+<img src='gray-scale.gif' alt='' width=600>
