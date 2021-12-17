@@ -22,10 +22,10 @@ Tools i use
 
 ## Examples
 
-|### **Gray-Scale**           |  ### **Cartoons**|
+|**Gray-Scale**           |  **Cartoons**|
 |:-------------------------:|:-------------------------:|
 <img src='assets/gray-scale.gif' alt=''>  |  <img src='assets/cartoons.gif' alt=''>|
 
-|### **Contrast**          |  ### **Remove Background**|
+|**Contrast**          |  **Remove Background**|
 |:-------------------------:|:-------------------------:|
 |<img src='assets/contrast.gif' alt=''>  |  <img src='assets/rm-bg.gif' alt=''>|
