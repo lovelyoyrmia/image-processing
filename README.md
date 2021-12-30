@@ -20,7 +20,7 @@ Tools i use
 - Mediapipe (Remove Background)
 - Heroku (Web Hosting)
 
-[Click here to take a look the website](bit.ly/3qupyoq)
+[Click here to take a look the website](https://share.streamlit.io/lovelyoyrmia/image-processing/app.py)
 
 ## Examples
 
