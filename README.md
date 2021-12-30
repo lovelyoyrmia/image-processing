@@ -20,7 +20,7 @@ Tools i use
 - Mediapipe (Remove Background)
 - Heroku (Web Hosting)
 
-[Click here to take a look the website](https://imageprocs.herokuapp.com)
+[Click here to take a look the website](bit.ly/3qupyoq)
 
 ## Examples
 
