@@ -10,8 +10,11 @@ timeStr = time.strftime("%Y%m%d-%H%M%S")
 idImage = str(randint(0, 1000))
 
 
-def imageSt(image):
-    return st.image(image, use_column_width=True)
+def imageSt(image, sidebar=False):
+    if sidebar:
+        st.sidebar.image(image, use_column_width=True)
+    else:
+        st.image(image, use_column_width=True)
 
 
 def downloader(image):
@@ -24,7 +27,7 @@ def downloader(image):
 
 def imageDownloader(image):
     global timestr, idImage
-    return st.download_button(
+    st.download_button(
         "Download Image",
         image,
         "new_image_{}_{}.png".format(timeStr, idImage),
