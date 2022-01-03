@@ -11,10 +11,13 @@ idImage = str(randint(0, 1000))
 
 
 def imageSt(image, sidebar=False):
-    if sidebar:
-        st.sidebar.image(image, use_column_width=True)
-    else:
-        st.image(image, use_column_width=True)
+    try:
+        if sidebar:
+            st.sidebar.image(image, use_column_width=True)
+        else:
+            st.image(image, use_column_width=True)
+    except Exception:
+        st.error('Cannot load image')
 
 
 def downloader(image):
