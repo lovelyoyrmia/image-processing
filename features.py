@@ -66,26 +66,26 @@ def cartoonFeatures(img):
     )
 
     edges, img_quantization, blurred, cartoon = cartoonize(img)
-    
+
     if type_cartoonize == "Original":
         st.subheader("Original")
-        imageSt(img)
+        imageSt(img, False)
 
     elif type_cartoonize == "Sketch":
         if st.sidebar.button('Process'):
             st.subheader("Result Sketch")
-            imageSt(edges)
+            imageSt(edges, False)
             img_bytes = downloader(edges)
             st.sidebar.subheader("Original")
             imageSt(img, True)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
-            imageSt(img)
+            imageSt(img, False)
     elif type_cartoonize == "Color Quantization":
         if st.sidebar.button('Process'):
             st.subheader("Result Image Quantization")
-            imageSt(img_quantization)
+            imageSt(img_quantization, False)
             img_bytes = downloader(img_quantization)
             st.sidebar.subheader("Original")
             imageSt(img, True)
@@ -96,22 +96,22 @@ def cartoonFeatures(img):
     elif type_cartoonize == "Quantization Blurred":
         if st.sidebar.button('Process'):
             st.subheader("Result Image Quantization Blurred")
-            imageSt(blurred)
+            imageSt(blurred, False)
             img_bytes = downloader(blurred)
             st.sidebar.subheader("Original")
             imageSt(img, True)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
-            imageSt(img)
+            imageSt(img, False)
     elif type_cartoonize == "Cartoons":
         if st.sidebar.button('Process'):
             st.subheader("Result Image Cartoon")
-            imageSt(cartoon)
+            imageSt(cartoon, False)
             img_bytes = downloader(cartoon)
             st.sidebar.subheader("Original")
             imageSt(img, True)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
-            imageSt(img)
+            imageSt(img, False)
