@@ -1,14 +1,13 @@
 import streamlit as st
 import numpy as np
-import cv2
 import detections as dt
 import time
-from PIL import Image, ImageEnhance
+from PIL import Image
 from bgRemoval import removeBG
-from downloader import downloader, imageDownloader, imageConvertArray, imageSt
+from downloader import imageSt
 from emaskRcnn import maskImage
 from sendEmail import sendEmail
-from cartoons import cartoonize
+from features import *
 
 
 @st.cache()
@@ -18,7 +17,7 @@ def loadImagePIL(image_file):
 
 
 def main():
-    image_logo = Image.open("images.jpg")
+    image_logo = Image.open("assets/images.jpg")
     st.set_page_config(page_title="Image Procs",
                        page_icon=image_logo, layout="wide")
     hide_menu_style = """
@@ -54,7 +53,7 @@ def main():
         image_file = st.file_uploader(
             "Upload Image", type=["png", "jpg", "jpeg"])
 
-        if image_file:
+        if image_file is not None:
 
             img = loadImagePIL(image_file)
 
@@ -72,8 +71,7 @@ def main():
             )
 
             if "Original" in st.session_state.enchance:
-                st.subheader("Original")
-                imageSt(img)
+
                 task = [
                     "Original Image",
                     "Face Detection",
@@ -124,104 +122,33 @@ def main():
                             imageSt(result_mask)
 
             elif "Gray-Scale" in st.session_state.enchance:
-                new_img = np.array(img.convert("RGB"))
-                img_cvt = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
-                st.subheader("Gray-Scale")
-                imageSt(img_cvt)
-                img_bytes = downloader(img_cvt)
-                imageDownloader(img_bytes)
+                greyscaleFeatures(img)
 
             elif "Contrast" in st.session_state.enchance:
-                c_rate = st.sidebar.slider(
-                    "Contrast", 0.5, 3.5, step=0.5, key="contrast"
-                )
-                enchancer = ImageEnhance.Contrast(img)
-                img_contrast = enchancer.enhance(c_rate)
-                image_download = imageConvertArray(img_contrast)
-                st.subheader("Contrast")
-                imageSt(image_download)
-                img_bytes = downloader(image_download)
-                imageDownloader(img_bytes)
+                contrastFeatures(img)
 
             elif "Brightness" in st.session_state.enchance:
-                c_rate = st.sidebar.slider(
-                    "Brightness", 0.5, 3.5, step=0.5, key="brightness"
-                )
-                enchancer = ImageEnhance.Brightness(img)
-                img_brightness = enchancer.enhance(c_rate)
-                image_download = imageConvertArray(img_brightness)
-                st.subheader("Brightness")
-                imageSt(image_download)
-                img_bytes = downloader(image_download)
-                imageDownloader(img_bytes)
+                brightnessFeatures(img)
 
             elif "Blurring" in st.session_state.enchance:
                 blurrFeatures(img)
+
             elif "Cartoonize" in st.session_state.enchance:
                 cartoonFeatures(img)
+
             else:
-                st.subheader("Original")
                 imageSt(img)
                 new_img = np.array(img)
                 if st.sidebar.button("Remove Background"):
                     img_out = removeBG(new_img)
                     st.subheader("Results")
                     imageSt(img_out)
+                else:
+                    st.subheader("Original")
 
     # === About Page ===
     else:
         aboutPage()
-
-
-def blurrFeatures(img):
-    blur_rate = st.sidebar.slider(
-        "Blurring", 0.5, 3.5, step=0.5, key="blurring"
-    )
-    new_img = np.array(img.convert("RGB"))
-    img_blur = cv2.GaussianBlur(new_img, (11, 11), blur_rate)
-    st.subheader("Blurring")
-    imageSt(img_blur)
-    img_bytes = downloader(img_blur)
-    imageDownloader(img_bytes)
-
-
-def cartoonFeatures(img):
-    features_cartoon = [
-        "Sketch",
-        "Color Quantization",
-        "Quantization Blurred",
-        "Cartoons",
-    ]
-    type_cartoonize = st.sidebar.selectbox(
-        "Types Of Cartoonize", features_cartoon
-    )
-
-    edges, img_quantization, blurred, cartoon = cartoonize(img)
-
-    if type_cartoonize == "Sketch":
-        if st.button("Process"):
-            st.subheader("Result Sketch")
-            imageSt(edges)
-            img_bytes = downloader(edges)
-            imageDownloader(img_bytes)
-    elif type_cartoonize == "Color Quantization":
-        if st.button("Process"):
-            st.subheader("Result Image Quantization")
-            imageSt(img_quantization)
-            img_bytes = downloader(img_quantization)
-            imageDownloader(img_bytes)
-    elif type_cartoonize == "Quantization Blurred":
-        if st.button("Process"):
-            st.subheader("Result Image Quantization Blurred")
-            imageSt(blurred)
-            img_bytes = downloader(blurred)
-            imageDownloader(img_bytes)
-    elif type_cartoonize == "Cartoons":
-        if st.button("Process"):
-            st.subheader("Result Image Cartoon")
-            imageSt(cartoon)
-            img_bytes = downloader(cartoon)
-            imageDownloader(img_bytes)
 
 
 def aboutPage():
