@@ -11,7 +11,7 @@ idImage = str(randint(0, 1000))
 
 
 def imageSt(image):
-    st.sidebar.image(image, use_column_width=True)
+    st.image(image, use_column_width=True)
 
 
 def downloader(image):
