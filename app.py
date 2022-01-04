@@ -83,7 +83,8 @@ def main():
                     "Find Computer Vision Features", task
                 )
                 if option_task == "Original Image":
-                    pass
+                    st.subheader("Original Image")
+                    imageSt(img)
 
                 elif option_task == "Face Detection":
                     if st.sidebar.button("Detect Faces"):
