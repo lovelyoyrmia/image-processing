@@ -4,7 +4,7 @@ import detections as dt
 import time
 from PIL import Image
 from bgRemoval import removeBG
-from downloader import imageSt
+from downloader import imageSt, imageSidebar
 from emaskRcnn import maskImage
 from sendEmail import sendEmail
 from features import *
@@ -93,10 +93,14 @@ def main():
                             result_img, faces = dt.detect_faces(img)
                             st.subheader("Results")
                             imageSt(result_img)
+                            imageSidebar(img)
                             if len(faces) > 1:
                                 st.success(f"Found {len(faces)} Faces")
                             else:
                                 st.success(f"Found {len(faces)} Face")
+                    else:
+                        st.subheader("Original Image")
+                        imageSt(img)
 
                 elif option_task == "Smile Detection":
                     if st.sidebar.button("Detect Smiles"):
@@ -105,6 +109,10 @@ def main():
                             result_smile = dt.detect_smiles(img)
                             st.subheader("Results")
                             imageSt(result_smile)
+                            imageSidebar(img)
+                    else:
+                        st.subheader("Original Image")
+                        imageSt(img)
 
                 elif option_task == "Body and Object Detection":
                     if st.sidebar.button("Detect Bodies & Objects"):
@@ -113,6 +121,10 @@ def main():
                             result_obj, _ = maskImage(img)
                             st.subheader("Results")
                             imageSt(result_obj)
+                            imageSidebar(img)
+                    else:
+                        st.subheader("Original Image")
+                        imageSt(img)
 
                 else:
                     if st.sidebar.button("Mask Image"):
@@ -121,6 +133,10 @@ def main():
                             _, result_mask = maskImage(img)
                             st.subheader("Masks")
                             imageSt(result_mask)
+                            imageSidebar(img)
+                    else:
+                        st.subheader("Original Image")
+                        imageSt(img)
 
             elif "Gray-Scale" in st.session_state.enchance:
                 greyscaleFeatures(img)
