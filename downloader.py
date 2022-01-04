@@ -10,14 +10,8 @@ timeStr = time.strftime("%Y%m%d-%H%M%S")
 idImage = str(randint(0, 1000))
 
 
-def imageSt(image, sidebar=False):
-    try:
-        if sidebar:
-            st.sidebar.image(image, use_column_width=True)
-        else:
-            st.image(image, use_column_width=True)
-    except Exception:
-        st.error('Cannot load image')
+def imageSt(image):
+    st.sidebar.image(image, use_column_width=True)
 
 
 def downloader(image):
