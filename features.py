@@ -69,26 +69,26 @@ def cartoonFeatures(img):
 
     if type_cartoonize == "Original":
         st.subheader("Original")
-        imageSt(img, False)
+        imageSt(img)
 
     elif type_cartoonize == "Sketch":
         if st.sidebar.button('Process'):
             st.subheader("Result Sketch")
-            imageSt(edges, False)
+            imageSt(edges)
             img_bytes = downloader(edges)
             st.sidebar.subheader("Original")
-            imageSt(img, True)
+            st.sidebar.image(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
-            imageSt(img, False)
+            imageSt(img)
     elif type_cartoonize == "Color Quantization":
         if st.sidebar.button('Process'):
             st.subheader("Result Image Quantization")
-            imageSt(img_quantization, False)
+            imageSt(img_quantization)
             img_bytes = downloader(img_quantization)
             st.sidebar.subheader("Original")
-            imageSt(img, True)
+            st.sidebar.image(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
@@ -96,22 +96,22 @@ def cartoonFeatures(img):
     elif type_cartoonize == "Quantization Blurred":
         if st.sidebar.button('Process'):
             st.subheader("Result Image Quantization Blurred")
-            imageSt(blurred, False)
+            imageSt(blurred)
             img_bytes = downloader(blurred)
             st.sidebar.subheader("Original")
-            imageSt(img, True)
+            st.sidebar.image(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
-            imageSt(img, False)
+            imageSt(img)
     elif type_cartoonize == "Cartoons":
         if st.sidebar.button('Process'):
             st.subheader("Result Image Cartoon")
-            imageSt(cartoon, False)
+            imageSt(cartoon)
             img_bytes = downloader(cartoon)
             st.sidebar.subheader("Original")
-            imageSt(img, True)
+            st.sidebar.image(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
-            imageSt(img, False)
+            imageSt(img)
