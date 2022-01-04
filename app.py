@@ -154,7 +154,6 @@ def main():
                 cartoonFeatures(img)
 
             else:
-                imageSt(img)
                 new_img = np.array(img)
                 if st.sidebar.button("Remove Background"):
                     img_out = removeBG(new_img)
@@ -162,6 +161,7 @@ def main():
                     imageSt(img_out)
                 else:
                     st.subheader("Original")
+                    imageSt(img)
 
     # === About Page ===
     else:
