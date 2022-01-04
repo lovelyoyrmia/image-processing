@@ -159,6 +159,7 @@ def main():
                     img_out = removeBG(new_img)
                     st.subheader("Results")
                     imageSt(img_out)
+                    imageSidebar(img)
                 else:
                     st.subheader("Original")
                     imageSt(img)
