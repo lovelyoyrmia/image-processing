@@ -14,6 +14,11 @@ def imageSt(image):
     st.image(image, use_column_width=True)
 
 
+def imageSidebar(image):
+    st.sidebar.subheader('Original')
+    st.sidebar.image(image, use_column_width=True)
+
+
 def downloader(image):
     image_array = Image.fromarray(image)
     b = io.BytesIO()

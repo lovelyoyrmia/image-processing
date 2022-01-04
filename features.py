@@ -2,7 +2,7 @@ import streamlit as st
 import cv2
 import numpy as np
 from PIL import ImageEnhance
-from downloader import downloader, imageDownloader, imageConvertArray, imageSt
+from downloader import *
 from cartoons import cartoonize
 
 
@@ -76,8 +76,7 @@ def cartoonFeatures(img):
             st.subheader("Result Sketch")
             imageSt(edges)
             img_bytes = downloader(edges)
-            st.sidebar.subheader("Original")
-            st.sidebar.image(img)
+            imageSidebar(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
@@ -87,8 +86,7 @@ def cartoonFeatures(img):
             st.subheader("Result Image Quantization")
             imageSt(img_quantization)
             img_bytes = downloader(img_quantization)
-            st.sidebar.subheader("Original")
-            st.sidebar.image(img)
+            imageSidebar(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
@@ -98,8 +96,7 @@ def cartoonFeatures(img):
             st.subheader("Result Image Quantization Blurred")
             imageSt(blurred)
             img_bytes = downloader(blurred)
-            st.sidebar.subheader("Original")
-            st.sidebar.image(img)
+            imageSidebar(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
@@ -109,8 +106,7 @@ def cartoonFeatures(img):
             st.subheader("Result Image Cartoon")
             imageSt(cartoon)
             img_bytes = downloader(cartoon)
-            st.sidebar.subheader("Original")
-            st.sidebar.image(img)
+            imageSidebar(img)
             imageDownloader(img_bytes)
         else:
             st.subheader("Original")
