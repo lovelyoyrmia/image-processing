@@ -9,11 +9,14 @@ from cartoons import cartoonize
 def greyscaleFeatures(img):
     new_img = np.array(img.convert("RGB"))
     img_cvt = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
-    st.subheader("Gray-Scale")
-    imageSt(img_cvt)
-    img_bytes = downloader(img_cvt)
-    imageDownloader(img_bytes)
 
+    if img_cvt is not None:
+        st.subheader("Gray-Scale")
+        imageSt(img_cvt)
+        img_bytes = downloader(img_cvt)
+        imageDownloader(img_bytes)
+
+    return new_img
 
 def contrastFeatures(img):
     c_rate = st.sidebar.slider(
@@ -26,6 +29,8 @@ def contrastFeatures(img):
     imageSt(image_download)
     img_bytes = downloader(image_download)
     imageDownloader(img_bytes)
+
+    return img_bytes
 
 
 def brightnessFeatures(img):
@@ -40,6 +45,8 @@ def brightnessFeatures(img):
     img_bytes = downloader(image_download)
     imageDownloader(img_bytes)
 
+    return img_bytes
+
 
 def blurrFeatures(img):
     blur_rate = st.sidebar.slider(
@@ -51,7 +58,7 @@ def blurrFeatures(img):
     imageSt(img_blur)
     img_bytes = downloader(img_blur)
     imageDownloader(img_bytes)
-
+    return img_bytes
 
 def cartoonFeatures(img):
     features_cartoon = [
