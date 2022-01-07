@@ -17,9 +17,6 @@ class Features:
 
         return img_cvt
 
-    def test(self):
-        print('hello world')
-
     def contrastFeatures(self):
         c_rate = self.st.sidebar.slider(
             "Contrast", 0.5, 3.5, step=0.5, key="contrast"
@@ -99,13 +96,13 @@ class Features:
             else:
                 self.st.subheader("Original")
                 imageSt(self.img)
-        elif type_cartoonize == "Cartoons":
+        else:
             if self.st.sidebar.button('Process'):
                 self.st.subheader("Result Image Cartoon")
                 imageSt(cartoon)
                 img_bytes = download.downloader(cartoon)
                 imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
-        else:
-            self.st.subheader("Original")
-            imageSt(self.img)
+            else:
+                self.st.subheader("Original")
+                imageSt(self.img)
