@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from PIL import ImageEnhance
 from cartoons import cartoonize
-from downloader import Download
+from modules.downloader import Download
 from components import imageSidebar, imageSt
 
 
