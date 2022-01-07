@@ -3,12 +3,11 @@ import numpy as np
 from about import aboutPage
 import detections as dt
 import time
+from modules import Features, Download
 from PIL import Image
 from bgRemoval import removeBG
-from downloader import Download
 from emaskRcnn import maskImage
 from sendEmail import sendEmail
-from features import Features
 from components import imageSt, imageSidebar
 
 
