@@ -17,6 +17,9 @@ class Features:
 
         return img_cvt
 
+    def test(self):
+        print('hello world')
+
     def contrastFeatures(self):
         c_rate = self.st.sidebar.slider(
             "Contrast", 0.5, 3.5, step=0.5, key="contrast"
