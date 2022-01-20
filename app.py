@@ -42,7 +42,7 @@ def main():
     # === Subscribe Page ===
     if choice == "Subscribe":
         st.subheader("Let's get in touch")
-        st.image("images.jpg", width=400)
+        st.image("assets/images.jpg", width=400)
         email = st.text_input("Enter your email")
         if st.button("Subscribe"):
             with st.spinner("Sending email..."):
