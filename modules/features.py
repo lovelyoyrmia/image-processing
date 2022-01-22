@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
 from PIL import ImageEnhance
-from cartoons import cartoonize
+from modules.cartoons import Cartoons
+from modules.components import Components
 from modules.downloader import Download
-from components import imageSidebar, imageSt
 
 
 class Features:
@@ -18,14 +18,11 @@ class Features:
         return img_cvt
 
     def contrastFeatures(self):
-        c_rate = self.st.sidebar.slider(
-            "Contrast", 0.5, 3.5, step=0.5, key="contrast"
-        )
+        c_rate = self.st.sidebar.slider("Contrast", 0.5, 3.5, step=0.5, key="contrast")
         enchancer = ImageEnhance.Contrast(self.img)
         img_contrast = enchancer.enhance(c_rate)
-        
-        return img_contrast
 
+        return img_contrast
 
     def brightnessFeatures(self):
         c_rate = self.st.sidebar.slider(
@@ -33,9 +30,8 @@ class Features:
         )
         enchancer = ImageEnhance.Brightness(self.img)
         img_brightness = enchancer.enhance(c_rate)
-        
-        return img_brightness
 
+        return img_brightness
 
     def blurrFeatures(self):
         blur_rate = self.st.sidebar.slider(
@@ -43,7 +39,7 @@ class Features:
         )
         new_img = np.array(self.img.convert("RGB"))
         img_blur = cv2.GaussianBlur(new_img, (11, 11), blur_rate)
-        
+
         return img_blur
 
     def cartoonFeatures(self):
@@ -58,51 +54,46 @@ class Features:
             "Types Of Cartoonize", features_cartoon
         )
 
-        edges, img_quantization, blurred, cartoon = cartoonize(self.img)
+        cartoons = Cartoons(self.st)
+
+        edges, img_quantization, blurred, cartoon = cartoons.cartoonize(self.img)
 
         download = Download(self.st)
+        component = Components(self.st)
 
         if type_cartoonize == "Original":
-            self.st.subheader("Original")
-            imageSt(self.img)
+            component.imageSt(self.img, "Original Image")
 
         elif type_cartoonize == "Sketch":
-            if self.st.sidebar.button('Process'):
-                self.st.subheader("Result Sketch")
-                imageSt(edges)
+            if self.st.sidebar.button("Process"):
+                component.imageSt(edges, "Result Sketch")
                 img_bytes = download.downloader(edges)
-                imageSidebar(self.img)
+                component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
-                self.st.subheader("Original")
-                imageSt(self.img)
+                component.imageSt(self.img, "Original Image")
         elif type_cartoonize == "Color Quantization":
-            if self.st.sidebar.button('Process'):
-                self.st.subheader("Result Image Quantization")
-                imageSt(img_quantization)
+            if self.st.sidebar.button("Process"):
+                component.imageSt(img_quantization, "Result Image Quantization")
                 img_bytes = download.downloader(img_quantization)
-                imageSidebar(self.img)
+                component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
-                self.st.subheader("Original")
-                imageSt(self.img)
+                component.imageSt(self.img, "Original Image")
         elif type_cartoonize == "Quantization Blurred":
-            if self.st.sidebar.button('Process'):
-                self.st.subheader("Result Image Quantization Blurred")
-                imageSt(blurred)
+            if self.st.sidebar.button("Process"):
+                component.imageSt(blurred, "Result Image Quantization Blurred")
                 img_bytes = download.downloader(blurred)
-                imageSidebar(self.img)
+                component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
                 self.st.subheader("Original")
-                imageSt(self.img)
+                component.imageSt(self.img)
         else:
-            if self.st.sidebar.button('Process'):
-                self.st.subheader("Result Image Cartoon")
-                imageSt(cartoon)
+            if self.st.sidebar.button("Process"):
+                component.imageSt(cartoon, "Result Image Cartoon")
                 img_bytes = download.downloader(cartoon)
-                imageSidebar(self.img)
+                component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
-                self.st.subheader("Original")
-                imageSt(self.img)
+                component.imageSt(self.img, "Original Image")
