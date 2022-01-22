@@ -11,8 +11,8 @@ class Components:
 
     def imageSt(self, image, title):
         self.st.subheader(title)
-        self.st.image(image, use_column_width=True)
+        self.st.image(image, use_column_width=True, clamp=True)
 
     def imageSidebar(self, image):
         self.st.sidebar.subheader("Original")
-        self.st.sidebar.image(image, use_column_width=True)
+        self.st.sidebar.image(image, use_column_width=True, clamp=True)
