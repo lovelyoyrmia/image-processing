@@ -1,34 +1,42 @@
 import streamlit as st
 import numpy as np
 import time
+import requests
 from modules import *
 from PIL import Image
 
 
 @st.cache()
 def loadImagePIL(image_file):
-    img = Image.open(image_file)
+    try:
+        img = Image.open(image_file)
+    except Exception:
+        img = None
+
     return img
 
 
-def processing():
-    image_file = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
+def loadImageUrl(image_file):
+
+    response = requests.get(image_file, stream=True)
+    img = Image.open(response.raw)
+
+    return img
+
+
+def processing(component, download, features):
+    img, image_file = uploader()
+    img_bytes = None
 
     if image_file is not None:
-
-        component = Components(st)
-        download = Download(st)
-
-        img = loadImagePIL(image_file)
-
-        features = Features(st, img)
-
         st.session_state.enchance_type = [
             "Original",
             "Gray-Scale",
             "Contrast",
             "Brightness",
             "Blurring",
+            "Thresholding",
+            "Hue And Saturation",
             "Cartoonize",
             "Remove-Background",
         ]
@@ -38,92 +46,46 @@ def processing():
         )
 
         if "Original" in st.session_state.enchance:
-            detect = Detection(st)
-            mask = MaskRcnn(st)
-
-            task = [
-                "Original Image",
-                "Face Detection",
-                "Smile Detection",
-                "Body and Object Detection",
-                "Mask R-CNN Image",
-            ]
-
-            option_task = st.sidebar.selectbox("Find Computer Vision Features", task)
-
-            if option_task == "Original Image":
-                component.imageSt(img, "Original Image")
-
-            elif option_task == "Face Detection":
-                if st.sidebar.button("Detect Faces"):
-                    with st.spinner("Loading..."):
-                        time.sleep(2)
-                        result_img, faces = detect.detectFaces(img)
-                        component.imageSt(result_img, "Result")
-                        component.imageSidebar(img)
-                        if len(faces) > 1:
-                            st.success(f"Found {len(faces)} Faces")
-                        else:
-                            st.success(f"Found {len(faces)} Face")
-                else:
-                    component.imageSt(img, "Original Image")
-
-            elif option_task == "Smile Detection":
-                if st.sidebar.button("Detect Smiles"):
-                    with st.spinner("Loading..."):
-                        time.sleep(2)
-                        result_smile = detect.detectSmiles(img)
-                        component.imageSt(result_smile, "Result")
-                        component.imageSidebar(img)
-                else:
-                    component.imageSt(img, "Original Image")
-
-            elif option_task == "Body and Object Detection":
-                if st.sidebar.button("Detect Bodies & Objects"):
-                    with st.spinner("Loading..."):
-                        time.sleep(2)
-                        result_obj, _ = mask.maskImage(img)
-                        component.imageSt(result_obj, "Result")
-                        component.imageSidebar(img)
-                else:
-                    component.imageSt(img, "Original Image")
-
-            else:
-                if st.sidebar.button("Mask Image"):
-                    with st.spinner("Loading..."):
-                        time.sleep(2)
-                        _, result_mask = mask.maskImage(img)
-                        component.imageSt(result_mask, "Mask Image")
-                        img_bytes = download.downloader(result_mask)
-                        download.imageDownloader(img_bytes)
-                        component.imageSidebar(img)
-                else:
-                    component.imageSt(img, "Original Image")
+            component.imageSt(img, "Original Image")
 
         elif "Gray-Scale" in st.session_state.enchance:
-            img_cvt_grey = features.greyscaleFeatures()
-            component.imageSt(img_cvt_grey, "Gray Scale")
-            img_bytes = download.downloader(img_cvt_grey)
-            download.imageDownloader(img_bytes)
+            img_gray = features.greyscaleFeatures()
+            component.imageSt(img_gray, "Gray Scale")
+            img_bytes = download.downloader(img_gray)
+            download.imageDownloader(img_bytes, 1)
 
         elif "Contrast" in st.session_state.enchance:
             image_contrast = features.contrastFeatures()
             image_convert_arr = download.imageConvertArray(image_contrast)
             component.imageSt(image_convert_arr, "Contrast")
             img_bytes = download.downloader(image_convert_arr)
-            download.imageDownloader(img_bytes)
+            download.imageDownloader(img_bytes, 1)
 
         elif "Brightness" in st.session_state.enchance:
             image_brightness = features.brightnessFeatures()
             image_convert_arr = download.imageConvertArray(image_brightness)
             component.imageSt(image_convert_arr, "Brightness")
             img_bytes = download.downloader(image_convert_arr)
-            download.imageDownloader(img_bytes)
+            download.imageDownloader(img_bytes, 1)
 
         elif "Blurring" in st.session_state.enchance:
             img_blurring = features.blurrFeatures()
             component.imageSt(img_blurring, "Blurring")
             img_bytes = download.downloader(img_blurring)
+            download.imageDownloader(img_bytes, 1)
+
+        elif "Thresholding" in st.session_state.enchance:
+            img_thresh = features.thresholding()
+            component.imageSt(img_thresh, "Thresholding")
+            component.imageSidebar(img)
+            img_bytes = download.downloader(img_thresh)
+            download.imageDownloader(img_bytes)
+
+        elif "Hue And Saturation" in st.session_state.enchance:
+            img_hue_sat = features.hueAndSaturation()
+            component.imageSt(img_hue_sat, "Hue And Saturation Color")
+            component.imageSidebar(img)
+            img_bytes = download.downloader(img_hue_sat)
             download.imageDownloader(img_bytes)
 
         elif "Cartoonize" in st.session_state.enchance:
@@ -137,9 +99,110 @@ def processing():
                 component.imageSt(img_rmbg, "Result")
                 component.imageSidebar(img)
                 img_bytes = download.downloader(img_rmbg)
-                download.imageDownloader(img_bytes)
+                download.imageDownloader(img_bytes, 1)
             else:
                 component.imageSt(img, "Original Image")
+    else:
+        st.info("Please Upload Your Image")
+
+
+def computerVisionFeatures(component, download):
+    img, image_file = uploader()
+    if image_file is not None:
+        # ALL VARIABLES FOR COMPUTER VISION
+        detect = Detection(st)
+        mask = MaskRcnn(st)
+
+        st.session_state.task = [
+            "Original Image",
+            "Face Detection",
+            "Smile Detection",
+            "Body and Object Detection",
+            "Mask R-CNN Image",
+        ]
+
+        st.session_state.option_task = st.sidebar.radio(
+            "Find Computer Vision Features", st.session_state.task
+        )
+
+        if "Original Image" in st.session_state.option_task:
+            component.imageSt(img, "Original Image")
+
+        elif "Face Detection" in st.session_state.option_task:
+            if st.sidebar.button("Detect Faces"):
+                with st.spinner("Loading..."):
+                    time.sleep(2)
+                    result_img, faces = detect.detectFaces(img)
+                    component.imageSt(result_img, "Result")
+                    component.imageSidebar(img)
+                    if len(faces) > 1:
+                        st.success(f"Found {len(faces)} Faces")
+                    else:
+                        st.success(f"Found {len(faces)} Face")
+            else:
+                component.imageSt(img, "Original Image")
+
+        elif "Smile Detection" in st.session_state.option_task:
+            if st.sidebar.button("Detect Smiles"):
+                with st.spinner("Loading..."):
+                    time.sleep(2)
+                    result_smile = detect.detectSmiles(img)
+                    component.imageSt(result_smile, "Result")
+                    component.imageSidebar(img)
+            else:
+                component.imageSt(img, "Original Image")
+
+        elif "Body and Object Detection" in st.session_state.option_task:
+            if st.sidebar.button("Detect Bodies & Objects"):
+                with st.spinner("Loading..."):
+                    time.sleep(2)
+                    result_obj, _ = mask.maskImage(img)
+                    component.imageSt(result_obj, "Result")
+                    component.imageSidebar(img)
+            else:
+                component.imageSt(img, "Original Image")
+
+        else:
+            if st.sidebar.button("Mask Image"):
+                with st.spinner("Loading..."):
+                    time.sleep(2)
+                    _, result_mask = mask.maskImage(img)
+                    component.imageSt(result_mask, "Mask Image")
+                    img_bytes = download.downloader(result_mask)
+                    download.imageDownloader(img_bytes)
+                    component.imageSidebar(img)
+            else:
+                component.imageSt(img, "Original Image")
+    else:
+        st.info("Please Upload Your Image")
+
+
+def uploader():
+    image_file = None
+    img = None
+    choose_upload = st.selectbox(
+        "Choose option to upload", ["Choose Type", "Drag and Drop", "Upload From Url"]
+    )
+
+    if choose_upload == "Choose Type":
+        image_file = None
+        img = None
+
+    elif choose_upload == "Drag and Drop":
+        image_drag = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
+        img = loadImagePIL(image_drag)
+        image_file = image_drag
+
+    else:
+        image_url = st.text_input("Input Url Image")
+        if image_url != "":
+            img = loadImageUrl(image_url)
+        else:
+            image_url = None
+
+        image_file = image_url
+
+    return img, image_file
 
 
 def main():
@@ -160,9 +223,24 @@ def main():
     st.title("Image Processing App")
     st.text("Build using Computer Vision and Artificial Intelligence")
 
-    activities = ["Welcome", "Processing", "Get In Touch", "About"]
+    activities = [
+        "Welcome",
+        "Processing",
+        "Computer Vision Features",
+        "Get In Touch",
+        "About",
+    ]
     navigation = st.sidebar.selectbox("Select Activity", activities)
     nav = Navigation(st)
+
+    # ALL VARIABLES IMAGE
+    image_file = None
+    img = None
+
+    # ALL VARIABLES CLASS
+    component = Components(st)
+    download = Download(st)
+    features = Features(st, img)
 
     # === Welcome Page ===
     if navigation == "Welcome":
@@ -170,7 +248,10 @@ def main():
 
     # === Processing Page ===
     elif navigation == "Processing":
-        processing()
+        processing(component, download, features)
+
+    elif navigation == "Computer Vision Features":
+        computerVisionFeatures(component, download)
 
     # === Get In Touch Page ===
     elif navigation == "Get In Touch":
