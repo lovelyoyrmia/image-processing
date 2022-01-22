@@ -15,16 +15,15 @@ def loadImagePIL(image_file):
 
     return img
 
-@st.cache()
 def loadImageUrl(image_file):
     try:
         response = requests.get(image_file, stream=True)
         img = Image.open(response.raw)
-    except Exception:
-        img = None
-        st.error('Please Input The Valid URL')
+        
+        return img
 
-    return img
+    except Exception:
+        st.error('Please Input The Valid URL')
 
 
 def processing():
