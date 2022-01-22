@@ -24,9 +24,14 @@ def loadImageUrl(image_file):
     return img
 
 
-def processing(component, download, features):
+def processing():
     img, image_file = uploader()
     img_bytes = None
+
+    # ALL VARIABLES CLASS
+    component = Components(st)
+    download = Download(st)
+    features = Features(st, img)
 
     if image_file is not None:
         st.session_state.enchance_type = [
@@ -106,8 +111,12 @@ def processing(component, download, features):
         st.info("Please Upload Your Image")
 
 
-def computerVisionFeatures(component, download):
+def computerVisionFeatures():
     img, image_file = uploader()
+    # ALL VARIABLES CLASS
+    component = Components(st)
+    download = Download(st)
+
     if image_file is not None:
         # ALL VARIABLES FOR COMPUTER VISION
         detect = Detection(st)
@@ -234,13 +243,6 @@ def main():
     nav = Navigation(st)
 
     # ALL VARIABLES IMAGE
-    image_file = None
-    img = None
-
-    # ALL VARIABLES CLASS
-    component = Components(st)
-    download = Download(st)
-    features = Features(st, img)
 
     # === Welcome Page ===
     if navigation == "Welcome":
@@ -248,10 +250,10 @@ def main():
 
     # === Processing Page ===
     elif navigation == "Processing":
-        processing(component, download, features)
+        processing()
 
     elif navigation == "Computer Vision Features":
-        computerVisionFeatures(component, download)
+        computerVisionFeatures()
 
     # === Get In Touch Page ===
     elif navigation == "Get In Touch":
