@@ -21,6 +21,7 @@ def loadImageUrl(image_file):
         response = requests.get(image_file, stream=True)
         img = Image.open(response.raw)
     except Exception:
+        img = None
         st.error('Please Input The Valid URL')
 
     return img
