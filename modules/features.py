@@ -93,34 +93,42 @@ class Features:
 
         elif type_cartoonize == "Sketch":
             if self.st.sidebar.button("Process"):
-                self.component.imageSt(edges, "Result Sketch")
+                with self.st.spinner("Wait a sec...."):
+                    self.component.imageSt(edges, "Result Sketch")
+                    self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(edges)
-                self.component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
                 self.component.imageSt(self.img, "Original Image")
+
         elif type_cartoonize == "Color Quantization":
             if self.st.sidebar.button("Process"):
-                self.component.imageSt(img_quantization, "Result Image Quantization")
+                with self.st.spinner("Wait a sec...."):
+                    self.component.imageSt(
+                        img_quantization, "Result Image Quantization"
+                    )
+                    self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(img_quantization)
-                self.component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
                 self.component.imageSt(self.img, "Original Image")
+
         elif type_cartoonize == "Quantization Blurred":
             if self.st.sidebar.button("Process"):
-                self.component.imageSt(blurred, "Result Image Quantization Blurred")
+                with self.st.spinner("Wait a sec...."):
+                    self.component.imageSt(blurred, "Result Image Quantization Blurred")
+                    self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(blurred)
-                self.component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
-                self.st.subheader("Original")
-                self.component.imageSt(self.img)
+                self.component.imageSt(self.img, "Original Image")
+
         else:
             if self.st.sidebar.button("Process"):
-                self.component.imageSt(cartoon, "Result Image Cartoon")
+                with self.st.spinner("Wait a sec...."):
+                    self.component.imageSt(cartoon, "Result Image Cartoon")
+                    self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(cartoon)
-                self.component.imageSidebar(self.img)
                 download.imageDownloader(img_bytes)
             else:
                 self.component.imageSt(self.img, "Original Image")
