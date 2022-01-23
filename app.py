@@ -15,15 +15,60 @@ def loadImagePIL(image_file):
 
     return img
 
+
 def loadImageUrl(image_file):
+    img = None
+
     try:
         response = requests.get(image_file, stream=True)
-        img = Image.open(response.raw)
-        
-        return img
+        try:
+            img = Image.open(response.raw)
+        except Exception:
+            st.error("Cannot load your image. Please try again !")
+            img = None
 
     except Exception:
-        st.error('Please Input The Valid URL')
+        st.error("Please Input The Valid URL")
+        img = None
+
+    return img
+
+
+def uploader():
+    image_file = None
+    img = None
+    choose_upload = st.selectbox(
+        "Choose option to upload", ["Choose Type", "Drag and Drop", "Upload From Url"]
+    )
+
+    if choose_upload == "Choose Type":
+        image_file = None
+        img = None
+
+    elif choose_upload == "Drag and Drop":
+        image_drag = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
+        img = loadImagePIL(image_drag)
+        image_file = image_drag
+
+    else:
+        image_url = st.text_input("Input Url Image")
+
+        if image_url != "":
+            img = loadImageUrl(image_url)
+
+            if img is None:
+                image_file = None
+            else:
+                image_file = image_url
+
+            return img, image_file
+
+        else:
+            image_url = None
+
+        image_file = image_url
+
+    return img, image_file
 
 
 def processing():
@@ -186,34 +231,6 @@ def computerVisionFeatures():
                 component.imageSt(img, "Original Image")
     else:
         st.info("Please Upload Your Image")
-
-
-def uploader():
-    image_file = None
-    img = None
-    choose_upload = st.selectbox(
-        "Choose option to upload", ["Choose Type", "Drag and Drop", "Upload From Url"]
-    )
-
-    if choose_upload == "Choose Type":
-        image_file = None
-        img = None
-
-    elif choose_upload == "Drag and Drop":
-        image_drag = st.file_uploader("Upload Image", type=["png", "jpg", "jpeg"])
-        img = loadImagePIL(image_drag)
-        image_file = image_drag
-
-    else:
-        image_url = st.text_input("Input Url Image")
-        if image_url != "":
-            img = loadImageUrl(image_url)
-        else:
-            image_url = None
-
-        image_file = image_url
-
-    return img, image_file
 
 
 def main():
