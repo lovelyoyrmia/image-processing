@@ -44,30 +44,36 @@ class Navigation:
                 <a href='https://www.instagram.com/lovelyoyrmia/' target='_blank' rel='noopener noreferrer'><i class='fab fa-instagram'></i></a>
                 <a href='https://www.linkedin.com/in/lovelyoyrmia' target='_blank' rel='noopener noreferrer'><i class='fab fa-linkedin'></i></a>
             </div>
+            <div class='link-web'>
+                For more info you can click here <a href='https://lovelyoyrmia.github.io' target='_blank' rel='noopener noreferrer'>My Portfolio</a>
+            </div>
             <h5>Created with ❤ by Lovelyo Yeremia</h5>
-            <a href='https://lovelyoyrmia.github.io' class='link-web' target='_blank' rel='noopener noreferrer'>Portfolio Website</a>
 
             <style>
             .icon-container a {
                 text-decoration: none;
-                color: #2235d2;
+                color: rgb(255, 255, 255);
                 font-size: 2rem;
+            }
+            .link-web {
+                font-size: 25px;
+                font-weight: 600;
+            }
+            .link-web a {
+                color: rgba(0, 0, 255, 0.5);
+                text-decoration: none;
             }
             .icon-container {
                 display: flex;
                 width: 30%;
                 justify-content: space-between;
             }
-            .icon-container a:hover {
-                color: rgba(0, 0, 255, 0.7);
+            .link-web a:hover,
+            .icon-cotainer a:hover {
+                color: rgba(255, 255, 255, 0.7);
             }
             h5 {
-                margin-top: 2rem;
-            }
-            .link-web {
-                font-size: 25px;
-                font-weight: 600;
-                text-decoration: none;
+                margin-top: 10px;
             }
             </style>
         """,
@@ -75,10 +81,30 @@ class Navigation:
         )
 
     def contact(self):
-        self.st.subheader("Let's get in touch")
-        self.st.image("assets/images.jpg", width=400)
-        email = self.st.text_input("Enter your email")
-        if self.st.button("Subscribe"):
-            send = SendEmail(self.st)
-            with self.st.spinner("Sending email..."):
-                send.sendEmail(email)
+        self.st.subheader("Let's get in touch !")
+        self.st.markdown(
+            """
+        |**Email**           |  **No Smartphone**| **Address**|
+        |:-------------------------:|:-------------------------:|:-------------------------:|
+        |mokalulovelyo@gmail.com |  +6285813501033 | Cawang, Jakarta, Indonesia |
+
+        <div class="contact-maps">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.0808984882456!2d106.8623502144936!3d-6.25307156296422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f30887bbb7ed%3A0x87e2cd019c1ed0b8!2sJl.%20Dewi%20Sartika%2C%20Kota%20Jakarta%20Timur%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e0!3m2!1sid!2sid!4v1642613554404!5m2!1sid!2sid"
+                width="600"
+                height="450"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+            ></iframe>
+        </div>
+        <style>
+            .contact-maps iframe {
+                border-radius: 30px;
+                width: 80%;
+                margin-top: 20px;
+            }
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
