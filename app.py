@@ -151,7 +151,7 @@ def processing():
                 component.imageSt(img_rmbg, "Result")
                 component.imageSidebar(img)
                 img_bytes = download.downloader(img_rmbg)
-                download.imageDownloader(img_bytes, 1)
+                download.imageDownloader(img_bytes)
             else:
                 component.imageSt(img, "Original Image")
     else:
