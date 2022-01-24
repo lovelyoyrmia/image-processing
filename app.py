@@ -22,7 +22,12 @@ def loadImageUrl(image_file):
     try:
         response = requests.get(image_file, stream=True)
         try:
+            download = Download(st)
             img = Image.open(response.raw)
+            arr_img = download.imageConvertArray(img)
+            scale = download.scaleImg(arr_img, 800)
+            img = Image.fromarray(scale)
+
         except Exception:
             st.error("Cannot load your image. Please try again !")
             img = None
