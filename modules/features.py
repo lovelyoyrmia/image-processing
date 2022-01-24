@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 from PIL import ImageEnhance
 from modules.cartoons import Cartoons
 from modules.components import Components
@@ -94,6 +95,7 @@ class Features:
         elif type_cartoonize == "Sketch":
             if self.st.sidebar.button("Process"):
                 with self.st.spinner("Wait a sec...."):
+                    time.sleep(2)
                     self.component.imageSt(edges, "Result Sketch")
                     self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(edges)
@@ -104,6 +106,7 @@ class Features:
         elif type_cartoonize == "Color Quantization":
             if self.st.sidebar.button("Process"):
                 with self.st.spinner("Wait a sec...."):
+                    time.sleep(4)
                     self.component.imageSt(
                         img_quantization, "Result Image Quantization"
                     )
@@ -116,6 +119,7 @@ class Features:
         elif type_cartoonize == "Quantization Blurred":
             if self.st.sidebar.button("Process"):
                 with self.st.spinner("Wait a sec...."):
+                    time.sleep(4)
                     self.component.imageSt(blurred, "Result Image Quantization Blurred")
                     self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(blurred)
@@ -126,6 +130,7 @@ class Features:
         else:
             if self.st.sidebar.button("Process"):
                 with self.st.spinner("Wait a sec...."):
+                    time.sleep(4)
                     self.component.imageSt(cartoon, "Result Image Cartoon")
                     self.component.imageSidebar(self.img)
                 img_bytes = download.downloader(cartoon)
