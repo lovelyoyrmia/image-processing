@@ -1,6 +1,6 @@
 # Image Processing
 
-[![wakatime](https://wakatime.com/badge/user/a9d60328-874e-4664-8b60-f55e1b63defd/project/d69f2769-06cb-41e5-a13f-b16d74656f21.svg)](https://wakatime.com/badge/user/a9d60328-874e-4664-8b60-f55e1b63defd/project/d69f2769-06cb-41e5-a13f-b16d74656f21) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/lovelyoyrmia/image-processing/app.py)
+[![wakatime](https://wakatime.com/badge/user/a9d60328-874e-4664-8b60-f55e1b63defd/project/724bb48a-b4ae-4b49-8d94-527ff4e9a30d.svg)](https://wakatime.com/badge/user/a9d60328-874e-4664-8b60-f55e1b63defd/project/724bb48a-b4ae-4b49-8d94-527ff4e9a30d) [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/lovelyoyrmia/image-processing/app.py)
 
 ****Technology i'm using is Computer Vision.****
 
