@@ -103,7 +103,10 @@ def processing():
         )
 
         if "Original" in st.session_state.enchance:
-            component.imageSt(img, "Original Image")
+            image_original = download.imageConvertArray(img)
+            component.imageSt(image_original, "Original Image")
+            img_bytes = download.downloader(image_original, 0)
+            download.imageDownloader(img_bytes)
 
         elif "Gray-Scale" in st.session_state.enchance:
             img_gray = features.greyscaleFeatures()
