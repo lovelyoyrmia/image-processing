@@ -36,10 +36,10 @@ class Cartoons:
         )
         return edges
 
-    def cartoonize(self, img):
-        blur_value = 7
-        line_size = 7
-        total_color = 11
+    def cartoonize(self, img, line_size, total_color, blur_value):
+        # blur_value = 7
+        # line_size = 7
+        # total_color = 11
 
         edges = self.edgeMask(img, line_size, blur_value)
         img_quantization = self.colorQuantization(img, total_color)
