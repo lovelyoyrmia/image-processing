@@ -12,9 +12,13 @@ class Download:
         self.timeStr = time.strftime("%Y%m%d-%H%M%S")
         self.idImage = str(randint(0, 1000))
 
-    def downloader(self, image):
-        watermark = self.addWatermark(image)
-        image_array = Image.fromarray(watermark)
+    def downloader(self, image, add_watermark=1):
+        if add_watermark == 1:
+            watermark = self.addWatermark(image)
+            image_array = Image.fromarray(watermark)
+        else:
+            image_array = Image.fromarray(image)
+
         b = io.BytesIO()
         image_array.save(b, "JPEG")
         img_bytes = b.getvalue()
