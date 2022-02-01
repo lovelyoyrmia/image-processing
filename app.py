@@ -94,6 +94,7 @@ def processing():
             "Blurring",
             "Thresholding",
             "Hue And Saturation",
+            "Canny Edge",
             "Cartoonize",
             "Remove-Background",
         ]
@@ -122,8 +123,8 @@ def processing():
             download.imageDownloader(img_bytes, 1)
 
         elif "Brightness" in st.session_state.enchance:
-            image_brightness = features.brightnessFeatures()
-            image_convert_arr = download.imageConvertArray(image_brightness)
+            img_bright = features.brightnessFeatures()
+            image_convert_arr = download.imageConvertArray(img_bright)
             component.imageSt(image_convert_arr, "Brightness")
             img_bytes = download.downloader(image_convert_arr)
             download.imageDownloader(img_bytes, 1)
@@ -146,6 +147,13 @@ def processing():
             component.imageSt(img_hue_sat, "Hue And Saturation Color")
             component.imageSidebar(img)
             img_bytes = download.downloader(img_hue_sat)
+            download.imageDownloader(img_bytes)
+
+        elif "Canny Edge" in st.session_state.enchance:
+            edges = features.cannyEdge()
+            component.imageSt(edges, "Canny Edge")
+            component.imageSidebar(img)
+            img_bytes = download.downloader(edges)
             download.imageDownloader(img_bytes)
 
         elif "Cartoonize" in st.session_state.enchance:
@@ -181,6 +189,7 @@ def computerVisionFeatures():
             "Original Image",
             "Face Detection",
             "Smile Detection",
+            "Eyes Detection",
             "Body and Object Detection",
             "Mask R-CNN Image",
         ]
@@ -212,6 +221,16 @@ def computerVisionFeatures():
                     time.sleep(2)
                     result_smile = detect.detectSmiles(img)
                     component.imageSt(result_smile, "Result")
+                    component.imageSidebar(img)
+            else:
+                component.imageSt(img, "Original Image")
+
+        elif "Eyes Detection" in st.session_state.option_task:
+            if st.sidebar.button("Detect Eyes"):
+                with st.spinner("Loading..."):
+                    time.sleep(2)
+                    result_eyes = detect.detectEye(img)
+                    component.imageSt(result_eyes, "Result")
                     component.imageSidebar(img)
             else:
                 component.imageSt(img, "Original Image")
