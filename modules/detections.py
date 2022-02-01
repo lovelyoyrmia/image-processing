@@ -10,6 +10,7 @@ class Detection:
             "haarcascade/haarcascade_frontalface_default.xml"
         )
         self.smile_cascade = cv2.CascadeClassifier("haarcascade/haarcascade_smile.xml")
+        self.eye_cascade = cv2.CascadeClassifier("haarcascade/haarcascade_eye.xml")
         self.component = components.Components(self.st)
 
     def detectFaces(self, images):
@@ -58,5 +59,18 @@ class Detection:
                     color=(255, 0, 0),
                     thickness=4,
                 )
+
+        return img
+
+    def detectEye(self, images):
+        new_img = self.component.cvtImgToArr(images)
+        img = cv2.cvtColor(new_img, 1)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        eyes = self.eye_cascade.detectMultiScale(gray, minSize=(20, 20))
+
+        if len(eyes) != 0:
+            for (x, y, w, h) in eyes:
+                cv2.rectangle(img, (x, y), (x + h, y + w), (0, 255, 0))
 
         return img
