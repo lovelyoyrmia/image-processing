@@ -1,4 +1,4 @@
 ﻿streamlit
-opencv-python-headless
+opencv-contrib-python-headless
 mediapipe
 python-dotenv
