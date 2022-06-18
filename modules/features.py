@@ -119,32 +119,28 @@ class Features:
 
         elif type_cartoonize == "Sketch":
             with self.st.spinner("Wait a sec...."):
-                time.sleep(2)
-                self.component.imageSt(edges, "Result Sketch")
-                self.component.imageSidebar(self.img)
+                time.sleep(4)
+                self.component.imageColumn(self.img, edges, "Result Sketch")
             img_bytes = download.downloader(edges)
             download.imageDownloader(img_bytes)
 
         elif type_cartoonize == "Color Quantization":
             with self.st.spinner("Wait a sec...."):
                 time.sleep(4)
-                self.component.imageSt(img_quantization, "Result Image Quantization")
-                self.component.imageSidebar(self.img)
+                self.component.imageColumn(self.img, img_quantization, "Result Image Quantization")
             img_bytes = download.downloader(img_quantization)
             download.imageDownloader(img_bytes)
 
         elif type_cartoonize == "Quantization Blurred":
             with self.st.spinner("Wait a sec...."):
                 time.sleep(4)
-                self.component.imageSt(blurred, "Result Image Quantization Blurred")
-                self.component.imageSidebar(self.img)
+                self.component.imageColumn(self.img, blurred, "Result Image Quantization Blurred")
             img_bytes = download.downloader(blurred)
             download.imageDownloader(img_bytes)
 
         else:
             with self.st.spinner("Wait a sec...."):
                 time.sleep(4)
-                self.component.imageSt(cartoon, "Result Image Cartoon")
-                self.component.imageSidebar(self.img)
+                self.component.imageColumn(self.img, cartoon, "Result Image Cartoon")
             img_bytes = download.downloader(cartoon)
             download.imageDownloader(img_bytes)

@@ -25,7 +25,7 @@ class Download:
 
         return img_bytes
 
-    def imageDownloader(self, image, sidebar=0):
+    def imageDownloader(self, image, sidebar=1):
         formatImg = self.formatDownload(sidebar).lower()
 
         if sidebar == 1:
