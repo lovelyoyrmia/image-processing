@@ -261,7 +261,7 @@ def computerVisionFeatures():
 
 
 def main():
-    image_logo = Image.open("assets/logo.jpg")
+    image_logo = Image.open("assets/logo.png")
     st.set_page_config(page_title="Image Procs", page_icon=image_logo, layout="wide")
     hide_menu_style = """
     <style>
