@@ -1,4 +1,5 @@
 from modules.sendEmail import SendEmail
+import base64
 
 
 class Navigation:
@@ -6,26 +7,33 @@ class Navigation:
         self.st = st
 
     def welcome(self):
-        self.st.image("assets/logo.png", width=200)
-        self.st.markdown(
-            """
-        ### Web Application that shows different image processing algorithms such as
-        - Gray Scale
-        - Contrast
-        - Blurring
-        - Brightness
-        - Thresholding
-        - Hue and Saturation
-        - Cartoonize Image
-        - Remove Background
+        # self.st.image("assets/logo.png", width=200)
+        # video_demo = open('assets/video_app.mp4', 'rb')
+        # self.st.video(video_demo)
+        self.st.markdown('''
+        <video controls autoplay="true" loop="true" style="width: 100%;">
+            <source src="https://siasky.net/AACnj3EkYfq0ttbxctKUUepGYsMuG2-eXKpCLmqy24Wpiw" type="video/mp4" />
+        </video>
+        ''', unsafe_allow_html=True)
+        # self.st.markdown(
+        #     """
+        # ### Web Application that shows different image processing algorithms such as
+        # - Gray Scale
+        # - Contrast
+        # - Blurring
+        # - Brightness
+        # - Thresholding
+        # - Hue and Saturation
+        # - Cartoonize Image
+        # - Remove Background
 
-        ### Also this website has Computer Vision Features such as
-        - Face Detection
-        - Smile Detection
-        - Body and Object Detection
-        - Mask R-CNN Image
-        """
-        )
+        # ### Also this website has Computer Vision Features such as
+        # - Face Detection
+        # - Smile Detection
+        # - Body and Object Detection
+        # - Mask R-CNN Image
+        # """
+        # )
 
     def aboutPage(self):
         self.st.markdown(
